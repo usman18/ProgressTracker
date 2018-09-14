@@ -2,4 +2,7 @@
     <string name="app_name">Progress Tracker</string>
     <string name="home">Home</string>
     <string name="stats">Stats</string>
+    <string name="highest_rank">Highest Rank</string>
+    <string name="success">Success %</string>
+    <string name="highest_collection">Highest Collection</string>
 </resources>

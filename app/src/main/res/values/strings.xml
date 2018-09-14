@@ -5,4 +5,6 @@
     <string name="highest_rank">Highest Rank</string>
     <string name="success">Success %</string>
     <string name="highest_collection">Highest Collection</string>
+    <string name="weight_loss">Weight Loss</string>
+    <string name="average_weight_loss">Average Weight Loss</string>
 </resources>

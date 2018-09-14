@@ -33,6 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+                    android:id="@+id/member_name"
                     android:drawablePadding="4dp"
                     android:drawableStart="@drawable/ic_action_person"
                     android:hint="@string/enter_member_s_name_here" />
@@ -48,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
+                    android:id="@+id/member_eid"
                     android:drawablePadding="4dp"
                     android:drawableStart="@drawable/ic_action_eid"
                     android:hint="@string/enter_member_s_employee_id" />
@@ -59,12 +61,15 @@
 
 
     <Button
+        android:id="@+id/add_member"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/round_corners"
-        android:text="Add Member"
+        android:text="@string/add_member"
         android:textColor="#FFFFFF"
         android:padding="8dp"
         android:fontFamily="sans-serif-condensed"

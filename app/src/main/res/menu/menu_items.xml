@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_action_stats"
         />
 
+    <item
+        android:id="@+id/members"
+        android:title="Team Members"
+        android:icon="@drawable/ic_action_members"
+        />
+
 </menu>

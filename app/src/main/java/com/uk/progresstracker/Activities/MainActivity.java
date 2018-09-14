@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.uk.progresstracker.Fragments.HomeFragment;
+import com.uk.progresstracker.Fragments.MembersFragment;
 import com.uk.progresstracker.Fragments.StatisticsFragment;
 import com.uk.progresstracker.R;
 
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                         return setFragment(new HomeFragment());
                     case R.id.stats:
                         return setFragment(new StatisticsFragment());
+                    case R.id.members:
+                        return setFragment(new MembersFragment());
                 }
 
                 return false;

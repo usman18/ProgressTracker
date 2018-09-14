@@ -7,4 +7,7 @@
     <string name="highest_collection">Highest Collection</string>
     <string name="weight_loss">Weight Loss</string>
     <string name="average_weight_loss">Average Weight Loss</string>
+    <string name="add_member">Add Member</string>
+    <string name="enter_member_s_name_here">Enter member\'s name</string>
+    <string name="enter_member_s_employee_id">Enter member\'s employee id</string>
 </resources>

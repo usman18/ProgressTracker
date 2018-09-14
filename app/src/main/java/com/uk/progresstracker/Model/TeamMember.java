@@ -18,7 +18,6 @@ public class TeamMember extends RealmObject {
 
 
     public TeamMember() {
-        reports = new RealmList<>();
     }
 
     public String getEid() {

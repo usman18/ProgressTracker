@@ -10,4 +10,23 @@
     <string name="add_member">Add Member</string>
     <string name="enter_member_s_name_here">Enter member\'s name</string>
     <string name="enter_member_s_employee_id">Enter member\'s employee id</string>
+    <string name="enter_weight_loss_here">Enter weight loss here</string>
+
+    <string-array name="months">
+        <item>Select month</item>
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>Aug</item>
+        <item>Sept</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+
+    </string-array>
+
 </resources>

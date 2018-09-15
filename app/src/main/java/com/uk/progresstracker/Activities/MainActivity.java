@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add_member:
                 startActivity(new Intent(MainActivity.this, AddMemberActivity.class));
                 return true;
+            case R.id.create_report:
+                startActivity(new Intent(MainActivity.this,ReportActivity.class));
+                return true;
         }
 
         return false;

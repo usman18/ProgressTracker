@@ -22,7 +22,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".AddMemberActivity"></activity>
+        <activity android:name=".AddMemberActivity" />
+        <activity android:name=".Activities.ReportActivity"></activity>
     </application>
 
 </manifest>

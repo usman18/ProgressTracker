@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:id="@+id/root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <ScrollView
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="match_parent">
 
 
         <LinearLayout android:layout_width="match_parent"
@@ -55,25 +55,26 @@
                     android:hint="@string/enter_member_s_employee_id" />
 
             </android.support.design.widget.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/add_member"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/round_corners"
+                android:text="@string/add_member"
+                android:textColor="#FFFFFF"
+                android:padding="8dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                />
+
         </LinearLayout>
 
     </ScrollView>
 
 
-    <Button
-        android:id="@+id/add_member"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/round_corners"
-        android:text="@string/add_member"
-        android:textColor="#FFFFFF"
-        android:padding="8dp"
-        android:fontFamily="sans-serif-condensed"
-        android:textStyle="bold"
-        />
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

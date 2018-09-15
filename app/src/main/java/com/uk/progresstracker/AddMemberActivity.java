@@ -1,6 +1,8 @@
 package com.uk.progresstracker;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -28,8 +30,6 @@ public class AddMemberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_member);
 
         initialize();
-
-
 
     }
 
@@ -65,11 +65,12 @@ public class AddMemberActivity extends AppCompatActivity {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
+
                             realm.copyToRealmOrUpdate(member);
                             Log.d("Check","Transaction done");
+                            updateUI();
                         }
                     });
-
 
                 }
 
@@ -78,12 +79,25 @@ public class AddMemberActivity extends AppCompatActivity {
 
     }
 
+    private void updateUI() {
+
+        Snackbar.make(findViewById(R.id.root_layout),"Member Added !",Snackbar.LENGTH_SHORT)
+                .show();
+
+        new Handler()
+                .postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                },2000);
+
+    }
+
     private boolean checkIfNull() {
 
-        if (TextUtils.isEmpty(etName.getText().toString())
-                || TextUtils.isEmpty(etEid.getText().toString()))
-            return true;
-        return false;
+        return TextUtils.isEmpty(etName.getText().toString())
+                || TextUtils.isEmpty(etEid.getText().toString());
 
     }
 }

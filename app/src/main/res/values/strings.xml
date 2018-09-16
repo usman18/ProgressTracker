@@ -11,6 +11,7 @@
     <string name="enter_member_s_name_here">Enter member\'s name</string>
     <string name="enter_member_s_employee_id">Enter member\'s employee id</string>
     <string name="enter_weight_loss_here">Enter weight loss here</string>
+    <string name="enter_weight_loss_of_this_month">Enter weight loss of this month</string>
 
     <string-array name="months">
         <item>Select month</item>

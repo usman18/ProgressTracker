@@ -34,8 +34,53 @@
 
 
     <EditText
+        android:id="@+id/etWeightLoss"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/enter_weight_loss_of_this_month"
+        />
+
+    <EditText
+        android:id="@+id/etAvgWeightLoss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/enter_weight_loss_of_this_month"
+        />
+
+    <EditText
+        android:id="@+id/etCollection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/enter_weight_loss_of_this_month"
+        />
+
+    <EditText
+        android:id="@+id/etSuccessPercentage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/enter_weight_loss_of_this_month"
+        />
+
+    <EditText
+        android:id="@+id/etRank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:inputType="numberDecimal"
+        android:hint="@string/enter_weight_loss_of_this_month"
+        />
+
+
 
 
 

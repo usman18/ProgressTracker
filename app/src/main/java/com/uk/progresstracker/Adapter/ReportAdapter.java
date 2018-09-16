@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.uk.progresstracker.Model.TeamMember;
@@ -77,6 +79,16 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.report_dialog,null);
         builder.setView(view);
+
+        EditText etWeightLoss = view.findViewById(R.id.etWeightLoss);
+        EditText etAvgWeightLoss = view.findViewById(R.id.etAvgWeightLoss);
+        EditText etSuccessPercent = view.findViewById(R.id.etSuccessPercentage);
+        EditText etRank = view.findViewById(R.id.etRank);
+        EditText etCollection = view.findViewById(R.id.etCollection);
+
+        Button btnSubmit = view.findViewById(R.id.btnSubmit);
+        Button btnDiscard = view.findViewById(R.id.btnDiscard);
+
 
         builder.create().show();
 

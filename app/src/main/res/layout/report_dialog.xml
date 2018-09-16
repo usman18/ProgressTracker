@@ -3,13 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Enter" />
 
     <TextView
         android:id="@+id/tvName"
@@ -39,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:inputType="numberDecimal"
-        android:hint="@string/enter_weight_loss_of_this_month"
+        android:hint="@string/enter_weight_loss"
         />
 
     <EditText
@@ -49,7 +42,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:inputType="numberDecimal"
-        android:hint="@string/enter_weight_loss_of_this_month"
+        android:hint="@string/enter_average_weight_loss"
         />
 
     <EditText
@@ -58,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:inputType="numberDecimal"
-        android:hint="@string/enter_weight_loss_of_this_month"
+        android:hint="@string/enter_collection"
         />
 
     <EditText
@@ -68,7 +61,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:inputType="numberDecimal"
-        android:hint="@string/enter_weight_loss_of_this_month"
+        android:hint="@string/enter_success"
         />
 
     <EditText
@@ -76,10 +69,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:inputType="numberDecimal"
-        android:hint="@string/enter_weight_loss_of_this_month"
+        android:inputType="number"
+        android:hint="@string/rank"
         />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="16dp"
+        >
+
+
+        <Button
+            android:background="@drawable/round_discard"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/btnDiscard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp"
+            android:text="@string/discard"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            />
+        <Button
+            android:layout_marginStart="8dp"
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_submit"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp"
+            android:text="@string/submit"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
 
 
 

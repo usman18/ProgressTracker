@@ -11,22 +11,38 @@ import io.realm.annotations.PrimaryKey;
 
 public class Report extends RealmObject {
 
-
     @PrimaryKey
-    private String id;  //Eid + current millis (There is no real use of eid except for keeping the records unique)
+    private String id;  //eid + _ month + _ year
 
-    private long month;
+    private String month;
+    private String year;
     private double weightLoss;
     private double avgWeightLoss;
     private double successPercentage;
     private int rank;
     private double collection;  //Money
 
-    public long getMonth() {
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(long month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 

@@ -1,5 +1,8 @@
 package com.uk.progresstracker;
 
+import android.support.v7.app.ActionBar;
+import android.content.Context;
+
 /**
  * Created by usman on 17-09-2018.
  */
@@ -24,6 +27,19 @@ public class Utils {
         int index2 = subId.indexOf("_");
 
         return subId.substring(0,index2);
+
+    }
+
+    public static void addBackButton(Context context,ActionBar actionBar, String title) {
+
+        if (actionBar == null || context == null)
+            return;
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
+        if (title != null)
+            actionBar.setTitle(title.trim());
 
     }
 

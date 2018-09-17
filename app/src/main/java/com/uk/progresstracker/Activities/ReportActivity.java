@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.uk.progresstracker.Adapter.ReportAdapter;
 import com.uk.progresstracker.Model.TeamMember;
 import com.uk.progresstracker.R;
+import com.uk.progresstracker.Utils;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -28,12 +30,9 @@ public class ReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
+        Utils.addBackButton(this,getSupportActionBar(),"Monthly Report");
         setUpRealm();
         initialize();
-
-
-
-
 
     }
 
@@ -60,4 +59,15 @@ public class ReportActivity extends AppCompatActivity {
         rvMembers.setAdapter(adapter);
 
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return false;
+    }
+
 }

@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,6 +30,7 @@ public class AddMemberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
 
+        Utils.addBackButton(this,getSupportActionBar(),"Add Team Member");
         initialize();
 
 
@@ -118,5 +120,15 @@ public class AddMemberActivity extends AppCompatActivity {
         return TextUtils.isEmpty(etName.getText().toString())
                 || TextUtils.isEmpty(etEid.getText().toString());
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return false;
     }
 }

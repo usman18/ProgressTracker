@@ -3,6 +3,7 @@ package com.uk.progresstracker.Activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -65,7 +66,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
             displayMsg();
         }
 
-
+        Utils.addBackButton(this,getSupportActionBar(),name);
         initialize();
         setupUI();
 
@@ -446,4 +447,12 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return false;
+    }
 }

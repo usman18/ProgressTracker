@@ -174,6 +174,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setSuccessChart() {
 
+        if (reports == null)
+            return;
+
         months.clear();
 
         ArrayList<BarEntry>
@@ -193,7 +196,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         Log.d("Check","Number of NAMES is " + months.size());
 
-       XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
 
         XAxis xAxis = successChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -203,11 +206,15 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         YAxis lyaxis = successChart.getAxisLeft();
         lyaxis.setAxisMinimum(0f);
-        lyaxis.setAxisMaximum(100);     //since percent
+
+        if (reports.size() != 0)
+            lyaxis.setAxisMaximum(100);     //since percent
 
         YAxis ryaxis = successChart.getAxisRight();
         ryaxis.setAxisMinimum(0f);
-        ryaxis.setAxisMaximum(100);
+
+        if (reports.size() != 0)
+            ryaxis.setAxisMaximum(100);
 
 
         BarDataSet dataSet = new BarDataSet(entries,"Success %");
@@ -228,6 +235,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
 
     private void setWtLossChart() {
+
+        if (reports == null)
+            return;
 
         months.clear();
 
@@ -281,6 +291,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setAvgWtLossChart() {
 
+        if (reports == null)
+            return;
+
         months.clear();
 
         ArrayList<BarEntry>
@@ -331,6 +344,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     }
 
     private void setCollectionChart() {
+
+        if (reports == null)
+            return;
 
         months.clear();
 
@@ -414,7 +430,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         int maxRank;
 
-        public RankValueFormatter(int max) {
+        RankValueFormatter(int max) {
             maxRank = max;
         }
 

@@ -63,15 +63,33 @@ public class AddMemberActivity extends AppCompatActivity {
                     member.setEid(etEid.getText().toString().trim());
                     member.setName(etName.getText().toString().trim());
 
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
 
-                            realm.copyToRealmOrUpdate(member);
-                            Log.d("Check","Transaction done");
-                            updateUI();
-                        }
-                    });
+                    TeamMember teamMember = realm.where(TeamMember.class)
+                            .equalTo("eid",etEid.getText().toString().trim())
+                            .findFirst();
+
+                    if (teamMember != null) {
+
+                        Snackbar.make(findViewById(R.id.root_layout),
+                                "A member named " + teamMember.getName() + " already exists with same ID !",Snackbar.LENGTH_SHORT)
+                                .show();
+
+                    }else {
+
+
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+
+                                realm.copyToRealmOrUpdate(member);
+                                Log.d("Check","Transaction done");
+                                updateUI();
+                            }
+                        });
+
+                    }
+
+
 
                 }
 

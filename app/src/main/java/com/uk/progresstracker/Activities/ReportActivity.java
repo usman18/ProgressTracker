@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.uk.progresstracker.Adapter.ReportAdapter;
-import com.uk.progresstracker.Model.Report;
 import com.uk.progresstracker.Model.TeamMember;
 import com.uk.progresstracker.R;
 
@@ -33,19 +31,8 @@ public class ReportActivity extends AppCompatActivity {
         setUpRealm();
         initialize();
 
-        Report report
-                = realm.where(Report.class)
-                .sort("rank")
-                .findFirst();
 
 
-        if (report != null) {
-
-            Log.d("Check","ID is " + report.getId());
-            Log.d("Check","Rank is " + report.getRank());
-            Log.d("Check","Collection is " + report.getCollection());
-
-        }
 
 
     }

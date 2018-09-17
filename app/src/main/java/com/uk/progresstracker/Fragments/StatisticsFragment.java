@@ -36,7 +36,13 @@ public class StatisticsFragment extends Fragment{
     private Realm realm;
 
     private BarChart successChart;
+    private BarChart wtLossChart;
 
+    private int month;
+    private String currentMonth;
+
+    RealmResults<Report> reports;
+    private ArrayList<String> names;
 
 
     @Nullable
@@ -52,43 +58,48 @@ public class StatisticsFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        intialize(view);
+        initialize(view);
         setUI();
 
     }
 
-    private void intialize(View view) {
+    private void initialize(View view) {
 
         realm = Realm.getDefaultInstance();
 
+        names = new ArrayList<>();
+
         successChart = view.findViewById(R.id.chartSuccess);
+        wtLossChart = view.findViewById(R.id.chartWtLoss);
+
+        month = Calendar.getInstance().get(Calendar.MONTH);
+        currentMonth = Utils.months[month];
+
+        //Todo
+        reports = realm.where(Report.class)
+                .equalTo("month",currentMonth)
+                .findAll();
+
+        Log.d("Check","Number of reports is " + reports.size());
+
+
 
     }
 
     private void setUI() {
 
         setSuccessChart();
+        setWtLossChart();
 
     }
 
     private void setSuccessChart() {
 
+        names.clear();
+
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
 
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        String currentMonth = Utils.months[month];
-
-        //Todo : Even filter by year
-        RealmResults<Report>
-                reports = realm.where(Report.class)
-                .equalTo("month",currentMonth)
-                .findAll();
-
-        Log.d("Check","Number of reports is " + reports.size());
-
-        ArrayList<String>
-                names = new ArrayList<>();
 
         int counter = 0;
 
@@ -119,6 +130,7 @@ public class StatisticsFragment extends Fragment{
         ryaxis.setAxisMinimum(0f);
         ryaxis.setAxisMaximum(100);
 
+
         BarDataSet dataSet = new BarDataSet(entries,"Success %");
         dataSet.setColors(Utils.colorsArray,getContext());
 
@@ -132,6 +144,58 @@ public class StatisticsFragment extends Fragment{
 
         successChart.getDescription().setEnabled(false);
         successChart.invalidate();
+
+    }
+
+
+    private void setWtLossChart() {
+
+        names.clear();
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) r.getWeightLoss()));
+            Log.d("Check","Id " + r.getId() + " Success " + r.getWeightLoss());
+            names.add(Utils.getNameFromId(r.getId()));
+
+        }
+
+
+        Log.d("Check","Number of NAMES is " + names.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
+
+        XAxis xAxis = wtLossChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = wtLossChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = wtLossChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Weight Loss (kg)");
+        dataSet.setColors(Utils.colorsArray,getContext());
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+        wtLossChart.setData(data);
+        data.setBarWidth(0.6f);
+        wtLossChart.setVisibleXRangeMaximum(5);
+
+        wtLossChart.getDescription().setEnabled(false);
+        wtLossChart.invalidate();
 
     }
 

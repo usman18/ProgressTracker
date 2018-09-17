@@ -24,7 +24,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".AddMemberActivity" />
-        <activity android:name=".Activities.ReportActivity"></activity>
+        <activity android:name=".Activities.ReportActivity" />
+        <activity android:name=".Activities.IndividualStatisticsActivity"></activity>
     </application>
 
 </manifest>

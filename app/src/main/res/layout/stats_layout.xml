@@ -128,13 +128,13 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="400dp">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:padding="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,6 +148,7 @@
                         />
 
                     <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chartAvgWtLoss"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
 
@@ -164,13 +165,13 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="400dp">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:padding="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -184,6 +185,7 @@
                         />
 
                     <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chartCollection"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
 

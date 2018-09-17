@@ -37,6 +37,8 @@ public class StatisticsFragment extends Fragment{
 
     private BarChart successChart;
     private BarChart wtLossChart;
+    private BarChart avgWtLossChart;
+    private BarChart collectionChart;
 
     private int month;
     private String currentMonth;
@@ -71,6 +73,8 @@ public class StatisticsFragment extends Fragment{
 
         successChart = view.findViewById(R.id.chartSuccess);
         wtLossChart = view.findViewById(R.id.chartWtLoss);
+        avgWtLossChart = view.findViewById(R.id.chartAvgWtLoss);
+        collectionChart = view.findViewById(R.id.chartCollection);
 
         month = Calendar.getInstance().get(Calendar.MONTH);
         currentMonth = Utils.months[month];
@@ -90,6 +94,8 @@ public class StatisticsFragment extends Fragment{
 
         setSuccessChart();
         setWtLossChart();
+        setAvgWtLossChart();
+        setCollectionChart();
 
     }
 
@@ -198,6 +204,110 @@ public class StatisticsFragment extends Fragment{
         wtLossChart.invalidate();
 
     }
+
+    private void setAvgWtLossChart() {
+
+        names.clear();
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) r.getAvgWeightLoss()));
+            Log.d("Check","Id " + r.getId() + " Success " + r.getAvgWeightLoss());
+            names.add(Utils.getNameFromId(r.getId()));
+
+        }
+
+
+        Log.d("Check","Number of NAMES is " + names.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
+
+        XAxis xAxis = avgWtLossChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = avgWtLossChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = avgWtLossChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Average Weight Loss ( 0 - 4 )");
+        dataSet.setColors(Utils.colorsArray,getContext());
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+        avgWtLossChart.setData(data);
+        data.setBarWidth(0.6f);
+        avgWtLossChart.setVisibleXRangeMaximum(5);
+
+        avgWtLossChart.getDescription().setEnabled(false);
+        avgWtLossChart.invalidate();
+
+    }
+
+
+    private void setCollectionChart() {
+
+        names.clear();
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) r.getCollection()));
+            Log.d("Check","Id " + r.getId() + " Success " + r.getCollection());
+            names.add(Utils.getNameFromId(r.getId()));
+
+        }
+
+
+        Log.d("Check","Number of NAMES is " + names.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
+
+        XAxis xAxis = collectionChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = collectionChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = collectionChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Collection (Rs)");
+        dataSet.setColors(Utils.colorsArray,getContext());
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+        collectionChart.setData(data);
+        data.setBarWidth(0.6f);
+        collectionChart.setVisibleXRangeMaximum(5);
+
+        collectionChart.getDescription().setEnabled(false);
+        collectionChart.invalidate();
+
+    }
+
 
     class XAxisValueFormatter implements IAxisValueFormatter{
 

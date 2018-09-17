@@ -3,6 +3,7 @@ package com.uk.progresstracker.Activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -40,15 +41,42 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     private BarChart avgWtLossChart;
     private BarChart collectionChart;
     
+    private String eid;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_statistics);
 
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+
+            eid = bundle.getString("eid");
+            name = bundle.getString("name");
+
+            if (eid == null || name == null) {
+                displayMsg();
+            }
+
+
+        }else {
+            displayMsg();
+        }
+
+
         initialize();
         setupUI();
 
+    }
+
+    private void displayMsg() {
+
+        Toast.makeText(IndividualStatisticsActivity.this,"Something went wrong",Toast.LENGTH_SHORT)
+                .show();
+
+        finish();
     }
 
     private void initialize() {
@@ -64,6 +92,8 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         months = new ArrayList<>();
 
         member = realm.where(TeamMember.class)
+                .equalTo("eid",eid)
+                .equalTo("name",name)
                 .findFirst();
         
         if (member != null)

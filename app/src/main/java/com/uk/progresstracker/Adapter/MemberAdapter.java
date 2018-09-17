@@ -1,13 +1,13 @@
 package com.uk.progresstracker.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.content.Intent;
 
 import com.uk.progresstracker.Activities.IndividualStatisticsActivity;
 import com.uk.progresstracker.Model.TeamMember;
@@ -62,7 +62,10 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, IndividualStatisticsActivity.class));
+                    Intent intent = new Intent(context, IndividualStatisticsActivity.class);
+                    intent.putExtra("name",members.get(getAdapterPosition()).getName());
+                    intent.putExtra("eid",members.get(getAdapterPosition()).getEid());
+                    context.startActivity(intent);
                 }
             });
 

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.uk.progresstracker.Model.Report;
 import com.uk.progresstracker.Model.TeamMember;
 import com.uk.progresstracker.R;
+import com.uk.progresstracker.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -85,6 +86,27 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
     private void showReportDialog(final int pos) {
 
+        String month = "";
+        String wtLoss = "";
+        String avgWtLoss = "";
+        String successPercent = "";
+        String collection = "";
+        String rank = "";
+
+        Report report = getPreviousEntry(members.get(pos));
+
+        if (report != null) {
+
+            month = report.getMonth();
+            wtLoss = String.valueOf(report.getWeightLoss());
+            avgWtLoss = String.valueOf(report.getAvgWeightLoss());
+            rank = String.valueOf(report.getRank());
+            collection = String.valueOf(report.getCollection());
+            successPercent = String.valueOf(report.getSuccessPercentage());
+
+        }
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         View view = LayoutInflater.from(context)
@@ -95,12 +117,21 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         tvName.setText(members.get(pos).getName());
 
         final Spinner spMonth = view.findViewById(R.id.spMonths);
+        spMonth.setSelection((Calendar.getInstance().get(Calendar.MONTH) + 1));
+
 
         final EditText etWeightLoss = view.findViewById(R.id.etWeightLoss);
         final EditText etAvgWeightLoss = view.findViewById(R.id.etAvgWeightLoss);
         final EditText etSuccessPercent = view.findViewById(R.id.etSuccessPercentage);
         final EditText etRank = view.findViewById(R.id.etRank);
         final EditText etCollection = view.findViewById(R.id.etCollection);
+
+        //setting previous values if any
+        etWeightLoss.setText(wtLoss.trim());
+        etAvgWeightLoss.setText(avgWtLoss);
+        etRank.setText(rank);
+        etCollection.setText(collection);
+        etSuccessPercent.setText(successPercent);
 
         Button btnSubmit = view.findViewById(R.id.btnSubmit);
         Button btnDiscard = view.findViewById(R.id.btnDiscard);
@@ -236,6 +267,27 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
             }
         });
 
+
+    }
+
+    private Report getPreviousEntry(TeamMember member) {
+
+
+        String id = member.getEid();
+        String name = member.getName();
+
+
+        String month = Utils.months[Calendar.getInstance().get(Calendar.MONTH)];
+        String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+
+        String report_id = id + "_" + name + "_" + month + "_" + year;
+
+        Realm realm = Realm.getDefaultInstance();
+
+
+        return realm.where(Report.class)
+                .equalTo("id",report_id)
+                .findFirst();
 
     }
 

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.uk.progresstracker.Model.Report;
 import com.uk.progresstracker.Model.TeamMember;
 
 import io.realm.Realm;
@@ -31,15 +30,6 @@ public class AddMemberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_member);
 
         initialize();
-
-        Report report
-                = realm.where(Report.class)
-                .equalTo("rank",1)
-                .findFirst();
-
-        Log.d("Check","Rank is " + report.getRank());
-        Log.d("Check","Coll is " + report.getCollection());
-        Log.d("Check","Succ is " + report.getSuccessPercentage());
 
 
 

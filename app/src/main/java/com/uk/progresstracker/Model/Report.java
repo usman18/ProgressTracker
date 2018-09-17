@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 public class Report extends RealmObject {
 
     @PrimaryKey
-    private String id;  //eid + _ month + _ year
+    private String id;  //eid + _ + name + _ month + _ year
 
     private String month;
     private String year;

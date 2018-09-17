@@ -18,6 +18,7 @@
     <string name="rank">Enter rank</string>
     <string name="submit">Submit</string>
     <string name="discard">Discard</string>
+    <string name="no_value">--</string>
 
     <string-array name="months">
         <item>Select month</item>

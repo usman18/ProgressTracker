@@ -199,7 +199,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         String year = new SimpleDateFormat("yyyy", Locale.ENGLISH).format(Calendar.getInstance().getTime());
         report.setYear(year);
 
-        report.setId(eid + "_" + month + "_" + year);
+        report.setId(eid + "_" + name + "_" + month + "_" + year);
         //POJO completely set up here
 
         realm.executeTransactionAsync(new Realm.Transaction() {

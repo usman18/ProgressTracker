@@ -32,8 +32,6 @@ public class AddMemberActivity extends AppCompatActivity {
         initialize();
 
 
-
-
     }
 
     private void initialize() {

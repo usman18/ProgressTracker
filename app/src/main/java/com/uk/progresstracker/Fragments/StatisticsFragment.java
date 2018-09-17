@@ -1,6 +1,5 @@
 package com.uk.progresstracker.Fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +23,6 @@ import com.uk.progresstracker.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -38,6 +36,7 @@ public class StatisticsFragment extends Fragment{
     private Realm realm;
 
     private BarChart successChart;
+
 
 
     @Nullable
@@ -80,15 +79,16 @@ public class StatisticsFragment extends Fragment{
         int month = Calendar.getInstance().get(Calendar.MONTH);
         String currentMonth = Utils.months[month];
 
+        //Todo : Even filter by year
         RealmResults<Report>
                 reports = realm.where(Report.class)
+                .equalTo("month",currentMonth)
                 .findAll();
 
         Log.d("Check","Number of reports is " + reports.size());
 
         ArrayList<String>
                 names = new ArrayList<>();
-
 
         int counter = 0;
 
@@ -98,20 +98,6 @@ public class StatisticsFragment extends Fragment{
             Log.d("Check","Id " + r.getId() + " Success " + r.getSuccessPercentage());
             names.add(Utils.getNameFromId(r.getId()));
 
-        }
-
-        Random rnd = new Random();
-
-        ArrayList<Integer> colors = new ArrayList<>();
-
-        for (int i = 0; i< reports.size(); i++) {
-
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            while (colors.contains(color)) {
-                 color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            }
-
-            colors.add(color);
         }
 
 
@@ -133,22 +119,17 @@ public class StatisticsFragment extends Fragment{
         ryaxis.setAxisMinimum(0f);
         ryaxis.setAxisMaximum(100);
 
-        int []colorsArray = new int[colors.size()];
-
-        for (int i = 0; i < colors.size() ; i++){
-            colorsArray[i] = colors.get(i);
-        }
-
         BarDataSet dataSet = new BarDataSet(entries,"Success %");
-//        dataSet.setColors(colorsArray,getContext());
+        dataSet.setColors(Utils.colorsArray,getContext());
 
         BarData data = new BarData(dataSet);
-        data.setBarWidth(0.9f);
+
         data.setValueTextSize(12);
 
-
-
         successChart.setData(data);
+        data.setBarWidth(0.6f);
+        successChart.setVisibleXRangeMaximum(5);
+
         successChart.getDescription().setEnabled(false);
         successChart.invalidate();
 

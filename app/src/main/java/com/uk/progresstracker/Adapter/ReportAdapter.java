@@ -2,6 +2,7 @@ package com.uk.progresstracker.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -120,11 +120,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         spMonth.setSelection((Calendar.getInstance().get(Calendar.MONTH) + 1));
 
 
-        final EditText etWeightLoss = view.findViewById(R.id.etWeightLoss);
-        final EditText etAvgWeightLoss = view.findViewById(R.id.etAvgWeightLoss);
-        final EditText etSuccessPercent = view.findViewById(R.id.etSuccessPercentage);
-        final EditText etRank = view.findViewById(R.id.etRank);
-        final EditText etCollection = view.findViewById(R.id.etCollection);
+        final TextInputEditText etWeightLoss = view.findViewById(R.id.etWeightLoss);
+        final TextInputEditText etAvgWeightLoss = view.findViewById(R.id.etAvgWeightLoss);
+        final TextInputEditText etSuccessPercent = view.findViewById(R.id.etSuccessPercentage);
+        final TextInputEditText etRank = view.findViewById(R.id.etRank);
+        final TextInputEditText etCollection = view.findViewById(R.id.etCollection);
 
         //setting previous values if any
         etWeightLoss.setText(wtLoss.trim());

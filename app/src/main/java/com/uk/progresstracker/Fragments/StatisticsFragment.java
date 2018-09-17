@@ -16,7 +16,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.uk.progresstracker.Model.Report;
 import com.uk.progresstracker.R;
 import com.uk.progresstracker.Utils;
@@ -26,6 +29,7 @@ import java.util.Calendar;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by usman on 14-09-2018.
@@ -35,6 +39,7 @@ public class StatisticsFragment extends Fragment{
 
     private Realm realm;
 
+    private BarChart rankChart;
     private BarChart successChart;
     private BarChart wtLossChart;
     private BarChart avgWtLossChart;
@@ -71,6 +76,7 @@ public class StatisticsFragment extends Fragment{
 
         names = new ArrayList<>();
 
+        rankChart = view.findViewById(R.id.chartRank);
         successChart = view.findViewById(R.id.chartSuccess);
         wtLossChart = view.findViewById(R.id.chartWtLoss);
         avgWtLossChart = view.findViewById(R.id.chartAvgWtLoss);
@@ -92,11 +98,80 @@ public class StatisticsFragment extends Fragment{
 
     private void setUI() {
 
+        setRankChart();
         setSuccessChart();
         setWtLossChart();
         setAvgWtLossChart();
         setCollectionChart();
 
+    }
+
+
+    private void setRankChart() {
+
+        names.clear();
+
+        int maxRank = getMaxRank(); //lowest rank basically, highest by number
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) (maxRank - r.getRank())));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
+            Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
+            names.add(Utils.getNameFromId(r.getId()));
+
+        }
+
+
+        Log.d("Check","Number of NAMES is " + names.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
+
+        XAxis xAxis = rankChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = rankChart.getAxisLeft();
+        lyaxis.setEnabled(false);
+        lyaxis.setSpaceBottom(0f);
+
+        YAxis ryaxis = rankChart.getAxisRight();
+        ryaxis.setEnabled(false);
+        ryaxis.setSpaceBottom(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Rankings");
+        dataSet.setColors(Utils.colorsArray,getContext());
+        dataSet.setValueFormatter(new RankValueFormatter(maxRank));
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+        rankChart.setData(data);
+        data.setBarWidth(0.6f);
+        rankChart.setVisibleXRangeMaximum(5);
+
+        rankChart.getDescription().setEnabled(false);
+        rankChart.invalidate();
+
+    }
+
+    private int getMaxRank() {
+
+        Report report = realm.where(Report.class)
+                .sort("rank", Sort.DESCENDING)
+                .findFirst();
+
+        if (report != null)
+            return report.getRank();
+        return 100;
     }
 
     private void setSuccessChart() {
@@ -322,6 +397,27 @@ public class StatisticsFragment extends Fragment{
             return values[(int) value];
         }
     }
+
+    class RankValueFormatter implements IValueFormatter{
+
+        int maxRank;
+
+        public RankValueFormatter(int max) {
+            maxRank = max;
+        }
+
+        private String getActualValue(int value) {
+
+            return String.valueOf(maxRank - value);
+
+        }
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return getActualValue((int)value);
+        }
+    }
+
 
 
 }

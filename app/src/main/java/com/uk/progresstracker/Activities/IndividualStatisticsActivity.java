@@ -29,7 +29,8 @@ import io.realm.RealmList;
 import io.realm.Sort;
 
 public class IndividualStatisticsActivity extends AppCompatActivity {
-    
+
+    private static final String TAG = "Check";
     private Realm realm;
     private TeamMember member;
     private RealmList<Report> reports;
@@ -99,6 +100,15 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         
         if (member != null)
             reports = member.getReports();
+
+        Log.d(TAG, "initialize: Size is " + reports.size());
+
+        for (int i = 0; i < reports.size(); i++) {
+
+            Log.d("Check", "initialize: id is " + reports.get(i).getId());
+            Log.d(TAG, "initialize: rank is " + reports.get(i).getRank() );
+
+        }
         
      
     }
@@ -122,6 +132,8 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         int maxRank = getMaxRank(); //lowest rank basically, highest by number
 
+        Log.d("Check", "setRankChart: " + "Max rank " + maxRank);
+
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
 
@@ -131,8 +143,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) (maxRank - r.getRank())));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
-            //Todo : even include year
-            months.add(r.getMonth());
+            months.add(r.getMonth() + " "  + r.getYear());
 
         }
 
@@ -306,7 +317,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getAvgWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getAvgWeightLoss());
-            months.add(Utils.getNameFromId(r.getId()));
+            months.add(r.getMonth());
 
         }
 
@@ -403,9 +414,8 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private int getMaxRank() {
 
-        Report report = realm.where(Report.class)
-                .sort("rank", Sort.DESCENDING)
-                .findFirst();
+        Report report = reports.sort("rank",Sort.DESCENDING)
+                .first();
 
         if (report != null)
             return report.getRank();

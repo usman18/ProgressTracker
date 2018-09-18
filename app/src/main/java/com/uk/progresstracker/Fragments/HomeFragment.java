@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +40,8 @@ public class HomeFragment extends Fragment {
     private TextView tvAvgWtLoss;
     private TextView tvAvgWtLossName;
 
+    private String currentMonth;
+    private String currentYear;
 
     @Nullable
     @Override
@@ -67,6 +68,11 @@ public class HomeFragment extends Fragment {
 
         calendar = Calendar.getInstance();
 
+        int monthIndex = calendar.get(Calendar.MONTH);
+        currentMonth = Utils.months[monthIndex];
+
+        currentYear = String.valueOf(calendar.get(Calendar.YEAR));
+
         tvRank = view.findViewById(R.id.tvRank);
         tvRankName = view.findViewById(R.id.tvRankName);
         tvSuccess = view.findViewById(R.id.tvSuccess);
@@ -92,13 +98,10 @@ public class HomeFragment extends Fragment {
 
     private void setHighestRank() {
 
-        int monthIndex = calendar.get(Calendar.MONTH);
-        String currentMonth = Utils.months[monthIndex];
-
-        Log.d("Check","Monht is " + currentMonth);
 
         Report report = realm.where(Report.class)
                 .sort("rank", Sort.ASCENDING)
+                .equalTo("year",currentYear)
                 .equalTo("month",currentMonth)
                 .findFirst();
 
@@ -114,12 +117,10 @@ public class HomeFragment extends Fragment {
 
     private void setHighestSuccessPercent() {
 
-        int monthIndex = calendar.get(Calendar.MONTH);
-        String currentMonth = Utils.months[monthIndex];
-
         Report report
                 = realm.where(Report.class)
                 .sort("successPercentage",Sort.DESCENDING)
+                .equalTo("year",currentYear)
                 .equalTo("month",currentMonth)
                 .findFirst();
 
@@ -136,12 +137,10 @@ public class HomeFragment extends Fragment {
 
     private void setHighestCollection() {
 
-        int monthIndex = calendar.get(Calendar.MONTH);
-        String currentMonth = Utils.months[monthIndex];
-
         Report report
                 = realm.where(Report.class)
                 .sort("collection",Sort.DESCENDING)
+                .equalTo("year",currentYear)
                 .equalTo("month",currentMonth)
                 .findFirst();
 
@@ -160,12 +159,10 @@ public class HomeFragment extends Fragment {
 
     private void setHighestWtLoss() {
 
-        int monthIndex = calendar.get(Calendar.MONTH);
-        String currentMonth = Utils.months[monthIndex];
-
         Report report
                 = realm.where(Report.class)
                 .sort("weightLoss",Sort.DESCENDING)
+                .equalTo("year",currentYear)
                 .equalTo("month",currentMonth)
                 .findFirst();
 
@@ -184,12 +181,10 @@ public class HomeFragment extends Fragment {
 
     private void setHighestAvgWtLoss() {
 
-        int monthIndex = calendar.get(Calendar.MONTH);
-        String currentMonth = Utils.months[monthIndex];
-
         Report report
                 = realm.where(Report.class)
                 .sort("avgWeightLoss",Sort.DESCENDING)
+                .equalTo("year",currentYear)
                 .equalTo("month",currentMonth)
                 .findFirst();
 

@@ -60,8 +60,7 @@
                             android:layout_centerInParent="true"
                             android:textColor="#020202"
                             android:text="@string/no_value"
-                            android:textStyle="italic"
-                            android:fontFamily="serif-medium"
+                            android:fontFamily="cursive"
                             />
 
 
@@ -180,7 +179,8 @@
                         android:textColor="#020202"
                         android:text="@string/no_value"
                         android:textSize="42sp"
-                        android:fontFamily="@font/allerta"
+                        android:textStyle="bold"
+                        android:fontFamily="cursive"
                         />
 
 

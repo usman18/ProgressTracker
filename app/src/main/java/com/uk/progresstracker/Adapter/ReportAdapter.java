@@ -2,6 +2,7 @@ package com.uk.progresstracker.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uk.progresstracker.Activities.ReportActivity;
 import com.uk.progresstracker.Model.Report;
 import com.uk.progresstracker.Model.TeamMember;
 import com.uk.progresstracker.R;
@@ -93,7 +95,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         String collection = "";
         String rank = "";
 
-        Report report = getPreviousEntry(members.get(pos));
+        final Report report = getPreviousEntry(members.get(pos));
 
         if (report != null) {
 
@@ -135,6 +137,10 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
         Button btnSubmit = view.findViewById(R.id.btnSubmit);
         Button btnDiscard = view.findViewById(R.id.btnDiscard);
+
+        if (report == null)
+            btnDiscard.setVisibility(View.GONE);
+
 
         final AlertDialog dialog = builder.create();
 
@@ -201,11 +207,45 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         btnDiscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                deleteFromDb(report.getId());
                 dialog.dismiss();
+
             }
         });
 
 
+
+    }
+
+    private void deleteFromDb(final String id) {
+
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                Report report
+                        = realm.where(Report.class)
+                        .equalTo("id", id)
+                        .findFirst();
+
+                if (report != null) {
+                    report.deleteFromRealm();
+                }
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+
+                Snackbar.make(((ReportActivity)context).findViewById(R.id.root_layout),
+                        "Deleted Successfully",Snackbar.LENGTH_SHORT)
+                        .show();
+
+            }
+        });
 
     }
 
@@ -231,7 +271,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
         report.setId(eid + "_" + name + "_" + month + "_" + year);
         //POJO completely set up here
-
 
 
         realm.executeTransactionAsync(new Realm.Transaction() {

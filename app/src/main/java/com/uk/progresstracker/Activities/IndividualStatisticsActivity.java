@@ -142,7 +142,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         for (Report r : reports) {
 
-            entries.add(new BarEntry(counter++,(float) (maxRank - r.getRank() + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
+            entries.add(new BarEntry(counter++, (float) ((maxRank - r.getRank()) + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
             months.add(r.getMonth() + " "  + r.getYear());
 
@@ -184,6 +184,16 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         rankChart.invalidate();
 
     }
+
+    private float getRank(float rank,float maxRank) {
+
+        rank = rank / maxRank;
+        rank *= 100;
+        rank = 100 - rank;
+
+        return rank;
+    }
+
 
     private void setSuccessChart() {
 
@@ -450,7 +460,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         private String getActualValue(int value) {
 
-            return String.valueOf(maxRank - value + 1);
+            return String.valueOf((maxRank - value) + 1);
 
         }
 
@@ -468,4 +478,5 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }

@@ -233,6 +233,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
         report.setId(eid + "_" + name + "_" + month + "_" + year);
         //POJO completely set up here
 
+
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -243,10 +245,26 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
                 RealmList<Report> reports = teamMember.getReports();
 
+                boolean found = false;
+
                 if (reports != null) {
 
-                    reports.add(report);
-                    Log.d("Check","Report added");
+                    for (int i = 0; i < reports.size(); i++) {
+
+                        if (reports.get(i).getId().equals(report.getId())) {
+
+                            found = true;
+                            reports.add(i,report);
+                            break;
+
+                        }
+
+                    }
+
+
+                    if (!found) {
+                        reports.add(report);
+                    }
 
                 }else {
 

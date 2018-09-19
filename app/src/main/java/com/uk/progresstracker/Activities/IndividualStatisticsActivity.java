@@ -125,7 +125,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setRankChart() {
         
-        if (reports == null)
+        if (reports.size() == 0)
             return;
         
         months.clear();
@@ -141,7 +141,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         for (Report r : reports) {
 
-            entries.add(new BarEntry(counter++,(float) (maxRank - r.getRank())));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
+            entries.add(new BarEntry(counter++,(float) (maxRank - r.getRank() + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
             months.add(r.getMonth() + " "  + r.getYear());
 
@@ -186,7 +186,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setSuccessChart() {
 
-        if (reports == null)
+        if (reports.size() == 0)
             return;
 
         months.clear();
@@ -248,7 +248,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setWtLossChart() {
 
-        if (reports == null)
+        if (reports.size() == 0)
             return;
 
         months.clear();
@@ -303,7 +303,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setAvgWtLossChart() {
 
-        if (reports == null)
+        if (reports.size() == 0)
             return;
 
         months.clear();
@@ -357,7 +357,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setCollectionChart() {
 
-        if (reports == null)
+        if (reports.size() == 0)
             return;
 
         months.clear();
@@ -420,6 +420,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         if (report != null)
             return report.getRank();
         return 100;
+
     }
 
 
@@ -447,7 +448,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         private String getActualValue(int value) {
 
-            return String.valueOf(maxRank - value);
+            return String.valueOf(maxRank - value + 1);
 
         }
 

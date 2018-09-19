@@ -111,6 +111,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.report_dialog,null);
+
         builder.setView(view);
 
         final TextView tvName = view.findViewById(R.id.tvName);
@@ -118,7 +119,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
         final Spinner spMonth = view.findViewById(R.id.spMonths);
         spMonth.setSelection((Calendar.getInstance().get(Calendar.MONTH) + 1));
-
 
         final TextInputEditText etWeightLoss = view.findViewById(R.id.etWeightLoss);
         final TextInputEditText etAvgWeightLoss = view.findViewById(R.id.etAvgWeightLoss);
@@ -135,7 +135,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
         Button btnSubmit = view.findViewById(R.id.btnSubmit);
         Button btnDiscard = view.findViewById(R.id.btnDiscard);
-
 
         final AlertDialog dialog = builder.create();
 
@@ -243,40 +242,47 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
                         .equalTo("name",name)
                         .findFirst();
 
-                RealmList<Report> reports = teamMember.getReports();
-
                 boolean found = false;
 
-                if (reports != null) {
+                RealmList<Report> reports = teamMember.getReports();
 
-                    for (int i = 0; i < reports.size(); i++) {
+                Log.d("Check","Given id " + report.getId());
 
-                        if (reports.get(i).getId().equals(report.getId())) {
+                Log.d("Check","Size of reports is " + reports.size());
 
-                            found = true;
-                            reports.add(i,report);
-                            break;
+                for (Report r : reports) {
 
-                        }
+                    if (r.getId().equals(report.getId())) {
+                        Log.d("Check","Found !");
+
+                        found = true;
+
+                        r.setSuccessPercentage(report.getSuccessPercentage());
+                        r.setRank(report.getRank());
+                        r.setWeightLoss(report.getWeightLoss());
+                        r.setAvgWeightLoss(report.getAvgWeightLoss());
+                        r.setCollection(report.getCollection());
+
+                        break;
 
                     }
-
-
-                    if (!found) {
-                        reports.add(report);
-                    }
-
-                }else {
-
-                    Log.d("Check","Reports were null");
 
                 }
+
+                if (!found) {
+                    Log.d("Check"," Not Found !");
+                    reports.add(report);
+                    Log.d("Check","Appended in list");
+                }
+
+
 
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
                 Log.d("Check","Successful !");
+                Log.d("Check","Month " + report.getMonth());
             }
         }, new Realm.Transaction.OnError() {
             @Override

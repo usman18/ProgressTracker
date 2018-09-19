@@ -124,11 +124,12 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     }
 
     private void setRankChart() {
-        
+
+        months.clear();
+
         if (reports.size() == 0)
             return;
         
-        months.clear();
 
         int maxRank = getMaxRank(); //lowest rank basically, highest by number
 
@@ -186,10 +187,11 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setSuccessChart() {
 
+        months.clear();
+
         if (reports.size() == 0)
             return;
 
-        months.clear();
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -248,10 +250,10 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setWtLossChart() {
 
+        months.clear();
+
         if (reports.size() == 0)
             return;
-
-        months.clear();
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -303,10 +305,10 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setAvgWtLossChart() {
 
+        months.clear();
+
         if (reports.size() == 0)
             return;
-
-        months.clear();
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -357,10 +359,10 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setCollectionChart() {
 
+        months.clear();
+
         if (reports.size() == 0)
             return;
-
-        months.clear();
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();

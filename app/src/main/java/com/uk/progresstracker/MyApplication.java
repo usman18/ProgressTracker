@@ -28,9 +28,8 @@ public class MyApplication extends Application {
 
 
         Realm.init(this);
-        RealmConfiguration configuration = new RealmConfiguration.Builder().schemaVersion(4)
-                .deleteRealmIfMigrationNeeded()
-                .build();
+
+        RealmConfiguration configuration = new RealmConfiguration.Builder().build();
 
         Realm.setDefaultConfiguration(configuration);
         //   new RealmConfiguration.Builder(StarterApplication.this).deleteRealmIfMigrationNeeded().schemaVersion(4).build();

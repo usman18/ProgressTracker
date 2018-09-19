@@ -278,7 +278,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
             public void execute(Realm realm) {
                 TeamMember teamMember = realm.where(TeamMember.class)
                         .equalTo("eid",eid)
-                        .equalTo("name",name)
                         .findFirst();
 
                 boolean found = false;

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -98,11 +99,11 @@ public class StatisticsFragment extends Fragment{
 
     private void setUI() {
 
-        setRankChart();
         setSuccessChart();
         setWtLossChart();
         setAvgWtLossChart();
         setCollectionChart();
+        setRankChart();
 
     }
 
@@ -110,6 +111,9 @@ public class StatisticsFragment extends Fragment{
     private void setRankChart() {
 
         names.clear();
+
+        if (reports.size() == 0)
+            return;
 
         int maxRank = getMaxRank(); //lowest rank basically, highest by number
 
@@ -120,7 +124,7 @@ public class StatisticsFragment extends Fragment{
 
         for (Report r : reports) {
 
-            entries.add(new BarEntry(counter++,(float) (maxRank - r.getRank())));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
+            entries.add(new BarEntry(counter++,(float) ((maxRank - r.getRank()) + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
             names.add(Utils.getNameFromId(r.getId()));
 
@@ -155,6 +159,10 @@ public class StatisticsFragment extends Fragment{
         data.setValueTextSize(12);
 
         rankChart.setData(data);
+
+
+        rankChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         rankChart.setVisibleXRangeMaximum(5);
 
@@ -177,6 +185,9 @@ public class StatisticsFragment extends Fragment{
     private void setSuccessChart() {
 
         names.clear();
+
+        if (reports.size() == 0)
+            return;
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -219,6 +230,9 @@ public class StatisticsFragment extends Fragment{
 
         data.setValueTextSize(12);
 
+        successChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
+
         successChart.setData(data);
         data.setBarWidth(0.6f);
         successChart.setVisibleXRangeMaximum(5);
@@ -232,6 +246,9 @@ public class StatisticsFragment extends Fragment{
     private void setWtLossChart() {
 
         names.clear();
+
+        if (reports.size() == 0)
+            return;
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -271,7 +288,11 @@ public class StatisticsFragment extends Fragment{
 
         data.setValueTextSize(12);
 
+
         wtLossChart.setData(data);
+
+        wtLossChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         wtLossChart.setVisibleXRangeMaximum(5);
 
@@ -283,6 +304,9 @@ public class StatisticsFragment extends Fragment{
     private void setAvgWtLossChart() {
 
         names.clear();
+
+        if (reports.size() == 0)
+            return;
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -323,6 +347,9 @@ public class StatisticsFragment extends Fragment{
         data.setValueTextSize(12);
 
         avgWtLossChart.setData(data);
+
+        avgWtLossChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         avgWtLossChart.setVisibleXRangeMaximum(5);
 
@@ -335,6 +362,9 @@ public class StatisticsFragment extends Fragment{
     private void setCollectionChart() {
 
         names.clear();
+
+        if (reports.size() == 0)
+            return;
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -375,6 +405,9 @@ public class StatisticsFragment extends Fragment{
         data.setValueTextSize(12);
 
         collectionChart.setData(data);
+
+        collectionChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         collectionChart.setVisibleXRangeMaximum(5);
 
@@ -408,7 +441,7 @@ public class StatisticsFragment extends Fragment{
 
         private String getActualValue(int value) {
 
-            return String.valueOf(maxRank - value);
+            return String.valueOf((maxRank - value) + 1);
 
         }
 

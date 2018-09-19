@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -115,11 +116,11 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setupUI() {
 
-        setRankChart();
         setSuccessChart();
         setWtLossChart();
         setAvgWtLossChart();
         setCollectionChart();
+        setRankChart();
 
     }
 
@@ -177,6 +178,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         data.setValueTextSize(12);
 
         rankChart.setData(data);
+
+        rankChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         rankChart.setVisibleXRangeMaximum(5);
 
@@ -185,14 +189,6 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     }
 
-    private float getRank(float rank,float maxRank) {
-
-        rank = rank / maxRank;
-        rank *= 100;
-        rank = 100 - rank;
-
-        return rank;
-    }
 
 
     private void setSuccessChart() {
@@ -249,6 +245,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         data.setValueTextSize(12);
 
         successChart.setData(data);
+
+        successChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         successChart.setVisibleXRangeMaximum(5);
 
@@ -304,7 +303,11 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         data.setValueTextSize(12);
 
         wtLossChart.setData(data);
+
+        wtLossChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
+
         wtLossChart.setVisibleXRangeMaximum(5);
 
         wtLossChart.getDescription().setEnabled(false);
@@ -359,6 +362,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         data.setValueTextSize(12);
 
         avgWtLossChart.setData(data);
+
+        avgWtLossChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         avgWtLossChart.setVisibleXRangeMaximum(5);
 
@@ -413,6 +419,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         data.setValueTextSize(12);
 
         collectionChart.setData(data);
+
+        collectionChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
         data.setBarWidth(0.6f);
         collectionChart.setVisibleXRangeMaximum(5);
 

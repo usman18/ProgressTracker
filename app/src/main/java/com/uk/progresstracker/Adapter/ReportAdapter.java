@@ -197,6 +197,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
                     saveToDb(members.get(pos),month,weightLoss,avgWeightLoss,rank,collection,successPercent);
                     dialog.dismiss();
+                    
+                    Snackbar.make(((ReportActivity)context)
+                    .findViewById(R.id.root_layout),"Saved Successfully !",Snackbar.LENGTH_SHORT)
+                            .show();
+
                 }
 
 

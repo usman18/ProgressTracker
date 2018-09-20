@@ -211,6 +211,10 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
                 deleteFromDb(report.getId());
                 dialog.dismiss();
 
+                Snackbar.make(((ReportActivity)context).findViewById(R.id.root_layout),
+                        "Deleted Report Successfully",Snackbar.LENGTH_SHORT)
+                        .show();
+
             }
         });
 
@@ -222,30 +226,16 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
 
         Realm realm = Realm.getDefaultInstance();
 
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
+        realm.beginTransaction();
 
-                Report report
-                        = realm.where(Report.class)
-                        .equalTo("id", id)
-                        .findFirst();
+        Report report = realm.where(Report.class)
+                .equalTo("id",id)
+                .findFirst();
 
-                if (report != null) {
-                    report.deleteFromRealm();
-                }
+        if (report != null)
+            report.deleteFromRealm();
 
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-
-                Snackbar.make(((ReportActivity)context).findViewById(R.id.root_layout),
-                        "Deleted Successfully",Snackbar.LENGTH_SHORT)
-                        .show();
-
-            }
-        });
+        realm.commitTransaction();
 
     }
 

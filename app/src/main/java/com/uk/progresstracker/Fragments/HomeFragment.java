@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.uk.progresstracker.Model.Report;
@@ -28,6 +30,9 @@ public class HomeFragment extends Fragment {
     private Realm realm;
 
     private Calendar calendar;
+
+    private TextView tvMonth;
+    private TextView tvYear;
 
     private TextView tvRank;
     private TextView tvRankName;
@@ -73,6 +78,13 @@ public class HomeFragment extends Fragment {
 
         currentYear = String.valueOf(calendar.get(Calendar.YEAR));
 
+        tvMonth = view.findViewById(R.id.month);
+        tvYear = view.findViewById(R.id.year);
+
+        tvMonth.setText(currentMonth);
+        tvYear.setText(currentYear);
+
+
         tvRank = view.findViewById(R.id.tvRank);
         tvRankName = view.findViewById(R.id.tvRankName);
         tvSuccess = view.findViewById(R.id.tvSuccess);
@@ -83,6 +95,61 @@ public class HomeFragment extends Fragment {
         tvWtLossName = view.findViewById(R.id.tvWeighLossName);
         tvAvgWtLoss = view.findViewById(R.id.tvAvgWeightLosss);
         tvAvgWtLossName = view.findViewById(R.id.tvAvgWeightLosssName);
+
+        view.findViewById(R.id.ll)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePicker();
+                    }
+                });
+
+
+    }
+
+    private void showDatePicker() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        View view = LayoutInflater.from(getContext())
+                .inflate(R.layout.date_picker_dialog,null);
+
+        builder.setView(view);
+
+        final DatePicker datePicker = view.findViewById(R.id.datePicker);
+
+        TextView tvCancel = view.findViewById(R.id.tvCancel);
+        TextView tvOk = view.findViewById(R.id.tvOk);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int monthIndex = datePicker.getMonth();
+                int year = datePicker.getYear();
+
+
+                currentMonth = Utils.months[monthIndex];
+                currentYear = String.valueOf(year);
+
+                tvMonth.setText(currentMonth);
+                tvYear.setText(currentYear);
+
+                setUI();
+
+                dialog.dismiss();
+
+            }
+        });
 
     }
 
@@ -110,6 +177,11 @@ public class HomeFragment extends Fragment {
 
             String name = Utils.getNameFromId(report.getId());
             tvRankName.setText(name);
+        }else {
+
+            tvRank.setText("--");
+            tvRankName.setText("--");
+
         }
 
     }
@@ -130,6 +202,11 @@ public class HomeFragment extends Fragment {
 
             tvSuccess.setText(percent);
             tvSuccessName.setText(Utils.getNameFromId(report.getId()));
+
+        }else {
+
+            tvSuccess.setText("--");
+            tvSuccessName.setText("--");
 
         }
 
@@ -153,6 +230,11 @@ public class HomeFragment extends Fragment {
             tvCollectionName.setText(Utils.getNameFromId(report.getId()));
 
 
+        }else {
+
+            tvCollection.setText("--");
+            tvCollectionName.setText("--");
+
         }
 
     }
@@ -174,6 +256,10 @@ public class HomeFragment extends Fragment {
             tvWtLoss.setText(wtLoss);
             tvWtLossName.setText(Utils.getNameFromId(report.getId()));
 
+        }else {
+
+            tvWtLoss.setText("--");
+            tvWtLossName.setText("--");
 
         }
 
@@ -196,6 +282,11 @@ public class HomeFragment extends Fragment {
             tvAvgWtLoss.setText(avgWtLoss);
             tvAvgWtLossName.setText(Utils.getNameFromId(report.getId()));
 
+
+        }else {
+
+            tvAvgWtLoss.setText("--");
+            tvAvgWtLossName.setText("--");
 
         }
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <ScrollView
@@ -19,6 +20,7 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="6dp"
+                app:cardCornerRadius="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
 
@@ -54,6 +56,7 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
+                app:cardCornerRadius="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
 
@@ -90,6 +93,7 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
+                app:cardCornerRadius="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
 
@@ -127,6 +131,7 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="12dp"
+                app:cardCornerRadius="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
 
@@ -164,6 +169,7 @@
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="6dp"
+                app:cardCornerRadius="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
 

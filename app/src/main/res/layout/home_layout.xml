@@ -14,6 +14,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <android.support.v7.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:id="@+id/month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:text="Month"
+                        android:textStyle="bold"
+                        />
+
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:layout_weight="1"
+                        android:id="@+id/year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:text="Year"
+                        />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
 
             <LinearLayout
                 android:visibility="visible"
@@ -28,6 +81,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="6dp"
                     app:elevation="8dp"
+                    app:cardCornerRadius="8dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
@@ -89,6 +143,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="6dp"
                     app:elevation="8dp"
+                    app:cardCornerRadius="8dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
@@ -151,6 +206,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="6dp"
+                app:cardCornerRadius="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -215,6 +271,7 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="12dp"
                     app:elevation="8dp"
+                    app:cardCornerRadius="8dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
@@ -276,6 +333,7 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="12dp"
                     app:elevation="8dp"
+                    app:cardCornerRadius="8dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">

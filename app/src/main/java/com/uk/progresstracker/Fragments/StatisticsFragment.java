@@ -532,7 +532,7 @@ public class StatisticsFragment extends Fragment{
             int index = (int) value;
             Log.d("Check","Index is " + index);
 
-            if (index == values.length)
+            if (index >= values.length)
                 return  "Dummy";
             return values[index];
 

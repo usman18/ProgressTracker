@@ -1,5 +1,8 @@
 package com.uk.progresstracker.Model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -84,5 +87,26 @@ public class Report extends RealmObject {
 
     public void setCollection(double collection) {
         this.collection = collection;
+    }
+
+    @Override
+    public String toString() {
+        JSONObject object = new JSONObject();
+
+        try {
+
+            object.put("id",id);
+            object.put("month",month);
+            object.put("year",year);
+            object.put("rank",rank);
+            object.put("collection",collection);
+            object.put("successPercentage",successPercentage);
+            object.put("weightLoss",weightLoss);
+            object.put("avgWeightLoss",avgWeightLoss);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object.toString();
     }
 }

@@ -1,6 +1,7 @@
 package com.uk.progresstracker.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uk.progresstracker.Activities.CreateReportActivity;
 import com.uk.progresstracker.Activities.ReportActivity;
 import com.uk.progresstracker.Model.Report;
 import com.uk.progresstracker.Model.TeamMember;
@@ -78,7 +80,10 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showReportDialog(getAdapterPosition());
+//                    showReportDialog(getAdapterPosition());
+                    Intent intent = new Intent(context, CreateReportActivity.class);
+                    intent.putExtra("eid",members.get(getAdapterPosition()).getEid());
+                    context.startActivity(intent);
                 }
             });
 
@@ -115,6 +120,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MemberView
                 .inflate(R.layout.report_dialog,null);
 
         builder.setView(view);
+
 
         final TextView tvName = view.findViewById(R.id.tvName);
         tvName.setText(members.get(pos).getName());

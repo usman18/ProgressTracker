@@ -14,8 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MainActivity">
-        </activity>
+        <activity android:name=".Activities.MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -24,15 +23,16 @@
         <activity android:name=".AddMemberActivity" />
         <activity android:name=".Activities.ReportActivity" />
         <activity android:name=".Activities.IndividualStatisticsActivity" />
-        <activity android:name=".Activities.SplashScreen"
-            android:theme="@style/SplashScreen"
-            >
+        <activity
+            android:name=".Activities.SplashScreen"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.CreateReportActivity"></activity>
     </application>
 
 </manifest>

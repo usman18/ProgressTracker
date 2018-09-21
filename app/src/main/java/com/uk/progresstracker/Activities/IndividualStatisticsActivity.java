@@ -209,7 +209,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getSuccessPercentage()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getSuccessPercentage());
-            months.add(r.getMonth());
+            months.add(r.getMonth() + " " + r.getYear());
 
         }
 
@@ -273,7 +273,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getWeightLoss());
-            months.add(r.getMonth());
+            months.add(r.getMonth() + " " + r.getYear());
 
         }
 
@@ -332,7 +332,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getAvgWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getAvgWeightLoss());
-            months.add(r.getMonth());
+            months.add(r.getMonth() + " " + r.getYear());
 
         }
 
@@ -389,7 +389,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getCollection()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getCollection());
-            months.add(r.getMonth());
+            months.add(r.getMonth() + " " + r.getYear());
 
         }
 

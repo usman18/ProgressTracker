@@ -1,150 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name Here"
-        android:textColor="@color/blue_dark"
-        android:textSize="17sp"
-        android:layout_margin="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:textStyle="bold"
-        />
-
-    <Spinner
-        android:textAlignment="center"
-        android:entries="@array/months"
-        android:id="@+id/spMonths"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_margin="16dp"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/etWeightLoss"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_weight_loss"
-            android:inputType="numberDecimal"
-            />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name Here"
+                android:textColor="@color/blue_dark"
+                android:textSize="17sp"
+                android:layout_margin="16dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                />
+
+            <Spinner
+                android:visibility="gone"
+                android:textAlignment="center"
+                android:entries="@array/months"
+                android:id="@+id/spMonths"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <android.support.v7.widget.CardView
+                app:cardCornerRadius="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:id="@+id/month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:text="Month"
+                        android:textStyle="bold"
+                        />
+
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:text="Year"
+                        />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_filter"
+                        />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etWeightLoss"
+                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_weight_loss"
+                    android:inputType="numberDecimal"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
 
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/etAvgWeightLoss"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_average_weight_loss"
-            android:inputType="numberDecimal"
-            />
-    </android.support.design.widget.TextInputLayout>
-
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/etCollection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_collection"
-            android:inputType="numberDecimal"
-            />
-    </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etAvgWeightLoss"
+                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_average_weight_loss"
+                    android:inputType="numberDecimal"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/etSuccessPercentage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_success"
-            android:inputType="numberDecimal"
-            />
-    </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/etRank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/rank"
-            android:inputType="number"
-            />
-    </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:layout_marginBottom="16dp"
-        >
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etCollection"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_collection"
+                    android:inputType="numberDecimal"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
 
-        <Button
-            android:background="@drawable/round_discard"
-            android:layout_marginEnd="8dp"
-            android:id="@+id/btnDiscard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:text="@string/discard"
-            android:textColor="#FFFFFF"
-            android:fontFamily="sans-serif-condensed"
-            android:textStyle="bold"
-            />
-        <Button
-            android:layout_marginStart="8dp"
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_submit"
-            android:layout_weight="1"
-            android:layout_marginBottom="16dp"
-            android:text="@string/submit"
-            android:textColor="#FFFFFF"
-            android:fontFamily="sans-serif-condensed"
-            android:textStyle="bold"
-            />
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </LinearLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etSuccessPercentage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:hint="@string/enter_success"
+                    android:inputType="numberDecimal"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etRank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/rank"
+                    android:textSize="16sp"
+                    android:inputType="number"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etPenalty"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_penalty"
+                    android:textSize="16sp"
+                    android:inputType="number"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_activity"
+                    android:inputType="number"
+                    android:visibility="gone"
+                    android:textSize="16sp"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp"
+                >
+
+
+                <Button
+                    android:background="@drawable/round_discard"
+                    android:layout_marginEnd="8dp"
+                    android:id="@+id/btnDiscard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/discard"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textStyle="bold"
+                    />
+                <Button
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_submit"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/submit"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 

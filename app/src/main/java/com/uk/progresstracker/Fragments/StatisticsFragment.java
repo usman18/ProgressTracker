@@ -111,6 +111,7 @@ public class StatisticsFragment extends Fragment{
         reports = realm.where(Report.class)
                 .equalTo("year",year)
                 .equalTo("month",monthName)
+                .sort("id",Sort.ASCENDING)
                 .findAll();
 
         Log.d("Check","Number of reports is " + reports.size());
@@ -166,6 +167,7 @@ public class StatisticsFragment extends Fragment{
                 reports = realm.where(Report.class)
                         .equalTo("year",year)
                         .equalTo("month",monthName)
+                        .sort("id",Sort.ASCENDING)
                         .findAll();
 
                 Log.d("Check","Month is " + monthName + " year is " + year);

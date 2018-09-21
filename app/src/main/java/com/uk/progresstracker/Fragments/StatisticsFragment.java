@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -40,14 +43,17 @@ public class StatisticsFragment extends Fragment{
 
     private Realm realm;
 
+    private TextView tvMonth;
+    private TextView tvYear;
+
     private BarChart rankChart;
     private BarChart successChart;
     private BarChart wtLossChart;
     private BarChart avgWtLossChart;
     private BarChart collectionChart;
 
-    private int month;
-    private String currentMonth;
+    private String monthName;
+    private String year;
 
     RealmResults<Report> reports;
     private ArrayList<String> names;
@@ -77,22 +83,37 @@ public class StatisticsFragment extends Fragment{
 
         names = new ArrayList<>();
 
+        tvMonth = view.findViewById(R.id.month);
+        tvYear = view.findViewById(R.id.year);
+
         rankChart = view.findViewById(R.id.chartRank);
         successChart = view.findViewById(R.id.chartSuccess);
         wtLossChart = view.findViewById(R.id.chartWtLoss);
         avgWtLossChart = view.findViewById(R.id.chartAvgWtLoss);
         collectionChart = view.findViewById(R.id.chartCollection);
 
-        month = Calendar.getInstance().get(Calendar.MONTH);
-        currentMonth = Utils.months[month];
+        view.findViewById(R.id.ll)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePicker();
+                    }
+                });
 
-        //Todo
+        //Initially month and year will be current month and year
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        monthName = Utils.months[month];
+        year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+
+        tvMonth.setText(monthName);
+        tvYear.setText(year);
+
         reports = realm.where(Report.class)
-                .equalTo("month",currentMonth)
+                .equalTo("year",year)
+                .equalTo("month",monthName)
                 .findAll();
 
         Log.d("Check","Number of reports is " + reports.size());
-
 
 
     }
@@ -107,13 +128,75 @@ public class StatisticsFragment extends Fragment{
 
     }
 
+    private void showDatePicker() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        View view = LayoutInflater.from(getContext())
+                .inflate(R.layout.date_picker_dialog,null);
+
+        builder.setView(view);
+
+        final DatePicker datePicker = view.findViewById(R.id.datePicker);
+
+        TextView tvCancel = view.findViewById(R.id.tvCancel);
+        TextView tvOk = view.findViewById(R.id.tvOk);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int monthIndex = datePicker.getMonth();
+
+                monthName = Utils.months[monthIndex];
+                year = String.valueOf(datePicker.getYear());
+
+                tvMonth.setText(monthName);
+                tvYear.setText(year);
+
+                reports = realm.where(Report.class)
+                        .equalTo("year",year)
+                        .equalTo("month",monthName)
+                        .findAll();
+
+                Log.d("Check","Month is " + monthName + " year is " + year);
+                Log.d("Check","Size is " + reports.size());
+
+                for (Report report : reports) {
+
+                    Log.d("Check","ID : " + report.getId() + " WtLoss : " + report.getWeightLoss())    ;
+                    Log.d("Check","Success is " + report.getSuccessPercentage());
+
+                }
+
+                dialog.dismiss();
+
+                setUI();
+
+
+            }
+        });
+
+    }
+
 
     private void setRankChart() {
 
         names.clear();
+        rankChart.clear();
 
-        if (reports.size() == 0)
+        if (reports.size() == 0) {
             return;
+        }
 
         int maxRank = getMaxRank(); //lowest rank basically, highest by number
 
@@ -174,6 +257,8 @@ public class StatisticsFragment extends Fragment{
     private int getMaxRank() {
 
         Report report = realm.where(Report.class)
+                .equalTo("year",year)
+                .equalTo("month", monthName)
                 .sort("rank", Sort.DESCENDING)
                 .findFirst();
 
@@ -185,9 +270,11 @@ public class StatisticsFragment extends Fragment{
     private void setSuccessChart() {
 
         names.clear();
+        successChart.clear();       //This will be used when filter results are not available
 
-        if (reports.size() == 0)
+        if (reports.size() == 0) {
             return;
+        }
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -246,9 +333,11 @@ public class StatisticsFragment extends Fragment{
     private void setWtLossChart() {
 
         names.clear();
+        wtLossChart.clear();
 
-        if (reports.size() == 0)
+        if (reports.size() == 0) {
             return;
+        }
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -263,6 +352,7 @@ public class StatisticsFragment extends Fragment{
 
         }
 
+        Log.d("Check","Number of entries is " + entries.size());
 
         Log.d("Check","Number of NAMES is " + names.size());
 
@@ -304,9 +394,11 @@ public class StatisticsFragment extends Fragment{
     private void setAvgWtLossChart() {
 
         names.clear();
+        avgWtLossChart.clear();
 
-        if (reports.size() == 0)
+        if (reports.size() == 0) {
             return;
+        }
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -362,9 +454,11 @@ public class StatisticsFragment extends Fragment{
     private void setCollectionChart() {
 
         names.clear();
+        collectionChart.clear();
 
-        if (reports.size() == 0)
+        if (reports.size() == 0) {
             return;
+        }
 
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
@@ -423,11 +517,25 @@ public class StatisticsFragment extends Fragment{
 
         public XAxisValueFormatter(String[] values) {
             this.values = values;
+
+            Log.d("Check","Size of array is " + values.length);
+            Log.d("Check","Array is as below");
+
+            for (String s : values) {
+                Log.d("Check","Element is " + s);
+            }
+
         }
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            return values[(int) value];
+            int index = (int) value;
+            Log.d("Check","Index is " + index);
+
+            if (index == values.length)
+                return  "Dummy";
+            return values[index];
+
         }
     }
 

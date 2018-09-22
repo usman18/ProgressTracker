@@ -18,6 +18,15 @@ public class Utils {
             = {"Jan","Feb","March","April","May","June","July","Aug","Sept","Oct","Nov","Dec"};
 
 
+    public static int getMonthIndex(String month) {
+
+        for (int i = 0; i < months.length; i++) {
+
+            if (month.equalsIgnoreCase(months[i]))
+                return i;
+        }
+        return -1;
+    }
 
 
     public static int[] colorsArray

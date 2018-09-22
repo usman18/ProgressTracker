@@ -24,6 +24,8 @@ import com.uk.progresstracker.R;
 import com.uk.progresstracker.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -116,11 +118,40 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setupUI() {
 
+
+        sortReportsByMonth();
         setSuccessChart();
         setWtLossChart();
         setAvgWtLossChart();
         setCollectionChart();
         setRankChart();
+
+    }
+
+    private void sortReportsByMonth() {
+
+        realm.beginTransaction();
+
+        Collections.sort(reports, new Comparator<Report>() {
+            @Override
+            public int compare(Report o1, Report o2) {
+
+                String month1 = o1.getMonth();
+                String month2 = o2.getMonth();
+
+                int year1 = Integer.parseInt(o1.getYear());
+                int year2 = Integer.parseInt(o2.getYear());
+
+                if (year1 != year2)
+                    return Integer.compare(year1,year2);
+                return Integer.compare(Utils.getMonthIndex(month1),Utils.getMonthIndex(month2));
+
+
+            }
+        });
+
+        realm.commitTransaction();
+
 
     }
 
@@ -212,6 +243,11 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
             months.add(r.getMonth() + " " + r.getYear());
 
         }
+
+
+
+
+
 
 
         Log.d("Check","Number of NAMES is " + months.size());

@@ -2,6 +2,7 @@ package com.uk.progresstracker;
 
 import android.content.Context;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,9 +39,14 @@ public class Utils {
 
     public static String getNameFromId(String id) {
                                              //eid + "_" + name + "_" + ...
+
+        Log.d("Check","Given id is " + id);
+
         int index = id.indexOf("_");
         String subId = id.substring(index + 1);
         int index2 = subId.indexOf("_");
+
+        Log.d("Check","Name is " + subId.substring(0,index2));
 
         return subId.substring(0,index2);
 

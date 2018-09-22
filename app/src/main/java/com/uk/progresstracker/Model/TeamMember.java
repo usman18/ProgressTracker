@@ -16,7 +16,6 @@ public class TeamMember extends RealmObject {
 
     private RealmList<Report> reports;
 
-
     public TeamMember() {
     }
 
@@ -43,4 +42,5 @@ public class TeamMember extends RealmObject {
     public void setReports(RealmList<Report> reports) {
         this.reports = reports;
     }
+
 }

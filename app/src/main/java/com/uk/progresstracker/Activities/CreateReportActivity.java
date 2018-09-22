@@ -1,12 +1,17 @@
 package com.uk.progresstracker.Activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +24,7 @@ import com.uk.progresstracker.Utils;
 import java.util.Calendar;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class CreateReportActivity extends AppCompatActivity {
 
@@ -26,24 +32,39 @@ public class CreateReportActivity extends AppCompatActivity {
 
     private String eid;
 
-    private String month = "";
+    private String selectedMonth = "";
+    private String selectedYear = "";
+
     private String wtLoss = "";
     private String avgWtLoss = "";
     private String successPercent = "";
     private String collection = "";
     private String rank = "";
+    private String id;
 
     private TeamMember member;
+    private Report report;
+
+
+    private TextView tvMonth;
+    private TextView tvYear;
+
+    private TextInputEditText etWeightLoss;
+    private TextInputEditText etAvgWeightLoss;
+    private TextInputEditText etRank;
+    private TextInputEditText etSuccessPercent;
+    private TextInputEditText etCollection;
+
+    private Button btnSubmit;
+    private Button btnDiscard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_report);
-        
+
         realm = Realm.getDefaultInstance();
-
-
-
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
@@ -62,39 +83,26 @@ public class CreateReportActivity extends AppCompatActivity {
         }
 
 
-        if (member == null)
+        if (member == null) {
             displayMsg();
-
-
-        Report report = getPreviousEntry(member);
-
-        if (report != null) {
-
-            month = report.getMonth();
-            wtLoss = String.valueOf(report.getWeightLoss());
-            avgWtLoss = String.valueOf(report.getAvgWeightLoss());
-            rank = String.valueOf(report.getRank());
-            collection = String.valueOf(report.getCollection());
-            successPercent = String.valueOf(report.getSuccessPercentage());
-
         }
 
+        initialize();
+        updateUI(selectedMonth,selectedYear);
 
-        Button btnSubmit = findViewById(R.id.btnSubmit);
-        Button btnDiscard = findViewById(R.id.btnDiscard);
+    }
 
-        if (report == null)
-            btnDiscard.setVisibility(View.GONE);
+    private void initialize() {
 
 
+        tvMonth = findViewById(R.id.month);
+        tvYear = findViewById(R.id.year);
 
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-//        View view = LayoutInflater.from(context)
-//                .inflate(R.layout.report_dialog,null);
-
-//        builder.setView(view);
-
+        etWeightLoss = findViewById(R.id.etWeightLoss);
+        etAvgWeightLoss = findViewById(R.id.etAvgWeightLoss);
+        etSuccessPercent = findViewById(R.id.etSuccessPercentage);
+        etRank = findViewById(R.id.etRank);
+        etCollection = findViewById(R.id.etCollection);
 
         final TextView tvName = findViewById(R.id.tvName);
         tvName.setText(member.getName());
@@ -102,23 +110,20 @@ public class CreateReportActivity extends AppCompatActivity {
         final Spinner spMonth = findViewById(R.id.spMonths);
         spMonth.setSelection((Calendar.getInstance().get(Calendar.MONTH) + 1));
 
-        final TextInputEditText etWeightLoss = findViewById(R.id.etWeightLoss);
-        final TextInputEditText etAvgWeightLoss = findViewById(R.id.etAvgWeightLoss);
-        final TextInputEditText etSuccessPercent = findViewById(R.id.etSuccessPercentage);
-        final TextInputEditText etRank = findViewById(R.id.etRank);
-        final TextInputEditText etCollection = findViewById(R.id.etCollection);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnDiscard = findViewById(R.id.btnDiscard);
 
-        //setting previous values if any
-        etWeightLoss.setText(wtLoss.trim());
-        etAvgWeightLoss.setText(avgWtLoss);
-        etRank.setText(rank);
-        etCollection.setText(collection);
-        etSuccessPercent.setText(successPercent);
+        selectedMonth = Utils.getMonth();   //Initially current month
+        selectedYear = Utils.getYear();     // Initially current year
 
 
-//        final AlertDialog dialog = builder.create();
-
-//        dialog.show();
+        findViewById(R.id.ll)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePicker();
+                    }
+                });
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,18 +155,8 @@ public class CreateReportActivity extends AppCompatActivity {
                     isNull = true;
                 }
 
-                if (spMonth.getSelectedItemPosition() == 0) {
-                    Toast.makeText(CreateReportActivity.this,"Please select month",Toast.LENGTH_LONG)
-                            .show();
-                    isNull = true;
-                }
-
-
                 if (!isNull) {
 
-                    String name = tvName.getText().toString().trim();
-
-                    String month = spMonth.getSelectedItem().toString();
 
                     String weightLoss = etWeightLoss.getText().toString().trim();
                     String avgWeightLoss = etAvgWeightLoss.getText().toString().trim();
@@ -169,13 +164,13 @@ public class CreateReportActivity extends AppCompatActivity {
                     String collection = etCollection.getText().toString().trim();
                     String successPercent = etSuccessPercent.getText().toString().trim();
 
-                    //Todo
-//                    saveToDb(members.get(pos),month,weightLoss,avgWeightLoss,rank,collection,successPercent);
-//                    dialog.dismiss();
+                    saveToDb(member,weightLoss,avgWeightLoss,rank,collection,successPercent);
 
                     Snackbar.make((CreateReportActivity.this)
                             .findViewById(R.id.root_layout),"Saved Successfully !",Snackbar.LENGTH_SHORT)
                             .show();
+
+                    lazyFinish();
 
                 }
 
@@ -187,18 +182,40 @@ public class CreateReportActivity extends AppCompatActivity {
         btnDiscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //Todo
-//                deleteFromDb(report.getId());
-//                dialog.dismiss();
+
+                if (id == null) {
+                    Toast.makeText(CreateReportActivity.this,"Id is null, could not delete !",Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+
+                deleteFromDb(id);
 
                 Snackbar.make(findViewById(R.id.root_layout),
                         "Deleted Report Successfully",Snackbar.LENGTH_SHORT)
                         .show();
 
+                lazyFinish();
+
             }
         });
 
+
     }
+
+
+    private void lazyFinish() {
+
+        new Handler()
+                .postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                       finish();
+                    }
+                },2500);
+
+    }
+
 
     private void displayMsg() {
     
@@ -208,15 +225,12 @@ public class CreateReportActivity extends AppCompatActivity {
     
     }
 
-    private Report getPreviousEntry(TeamMember member) {
+    private Report getPreviousEntry(String month,String year) {
 
 
         String id = member.getEid();
         String name = member.getName();
 
-
-        String month = Utils.months[Calendar.getInstance().get(Calendar.MONTH)];
-        String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 
         String report_id = id + "_" + name + "_" + month + "_" + year;
 
@@ -228,5 +242,192 @@ public class CreateReportActivity extends AppCompatActivity {
                 .findFirst();
 
     }
+
+    private void deleteFromDb(final String id) {
+
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+
+        Report report = realm.where(Report.class)
+                .equalTo("id",id)
+                .findFirst();
+
+        if (report != null)
+            report.deleteFromRealm();
+
+        realm.commitTransaction();
+
+    }
+
+
+    private void saveToDb(final TeamMember member, String weightLoss, String avgWeightLoss, String rank, String collection, String successPercent) {
+
+        final String name = member.getName();
+        final String eid = member.getEid();
+
+        Realm realm = Realm.getDefaultInstance();
+
+        final Report report = new Report();
+
+        report.setWeightLoss(Double.parseDouble(weightLoss));
+        report.setAvgWeightLoss(Double.parseDouble(avgWeightLoss));
+        report.setCollection(Double.parseDouble(collection));
+        report.setRank(Integer.parseInt(rank));
+        report.setSuccessPercentage(Double.parseDouble(successPercent));
+        report.setMonth(selectedMonth);
+        report.setYear(selectedYear);
+
+        report.setId(eid + "_" + name + "_" + selectedMonth + "_" + selectedYear);
+        //POJO completely set up here
+
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                TeamMember teamMember = realm.where(TeamMember.class)
+                        .equalTo("eid",eid)
+                        .findFirst();
+
+                boolean found = false;
+
+                RealmList<Report> reports = teamMember.getReports();
+
+                Log.d("Check","Given id " + report.getId());
+
+                Log.d("Check","Size of reports is " + reports.size());
+
+                for (Report r : reports) {
+
+                    if (r.getId().equals(report.getId())) {
+                        Log.d("Check","Found !");
+
+                        found = true;
+
+                        r.setSuccessPercentage(report.getSuccessPercentage());
+                        r.setRank(report.getRank());
+                        r.setWeightLoss(report.getWeightLoss());
+                        r.setAvgWeightLoss(report.getAvgWeightLoss());
+                        r.setCollection(report.getCollection());
+
+                        break;
+
+                    }
+
+                }
+
+                if (!found) {
+                    Log.d("Check"," Not Found !");
+                    reports.add(report);
+                    Log.d("Check","Appended in list");
+                }
+
+
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.d("Check","Successful !");
+                Log.d("Check","Month " + report.getMonth());
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.d("Check","In on error " + error.getMessage());
+            }
+        });
+
+
+    }
+
+    private void showDatePicker() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateReportActivity.this);
+
+        View view = LayoutInflater.from(CreateReportActivity.this)
+                .inflate(R.layout.date_picker_dialog,null);
+
+        builder.setView(view);
+
+        final DatePicker datePicker = view.findViewById(R.id.datePicker);
+
+        TextView tvCancel = view.findViewById(R.id.tvCancel);
+        TextView tvOk = view.findViewById(R.id.tvOk);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int monthIndex = datePicker.getMonth();
+                int year = datePicker.getYear();
+
+
+                selectedMonth = Utils.months[monthIndex];
+                selectedYear = String.valueOf(year);
+
+                tvMonth.setText(selectedMonth);
+                tvYear.setText(selectedYear);
+
+                dialog.dismiss();
+
+                updateUI(selectedMonth,selectedYear);
+
+            }
+        });
+
+    }
+
+    private void updateUI(String month,String year) {
+
+        tvMonth.setText(month);
+        tvYear.setText(year);
+
+        report = getPreviousEntry(month,year);
+
+        if (report != null) {
+
+            id = report.getId();
+            wtLoss = String.valueOf(report.getWeightLoss());
+            avgWtLoss = String.valueOf(report.getAvgWeightLoss());
+            rank = String.valueOf(report.getRank());
+            collection = String.valueOf(report.getCollection());
+            successPercent = String.valueOf(report.getSuccessPercentage());
+
+        }else {
+
+            id = null;
+            wtLoss = "";
+            avgWtLoss = "";
+            rank = "";
+            collection = "";
+            successPercent = "";
+
+        }
+
+        if (report == null) {
+            btnDiscard.setVisibility(View.GONE);
+        }else {
+            btnDiscard.setVisibility(View.VISIBLE);
+        }
+
+        //setting previous values if any
+        etWeightLoss.setText(wtLoss);
+        etAvgWeightLoss.setText(avgWtLoss);
+        etRank.setText(rank);
+        etCollection.setText(collection);
+        etSuccessPercent.setText(successPercent);
+
+    }
+
 
 }

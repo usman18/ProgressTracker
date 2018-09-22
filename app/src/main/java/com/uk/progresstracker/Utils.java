@@ -1,7 +1,12 @@
 package com.uk.progresstracker;
 
-import android.support.v7.app.ActionBar;
 import android.content.Context;
+import android.support.v7.app.ActionBar;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by usman on 17-09-2018.
@@ -20,9 +25,9 @@ public class Utils {
                 R.color.safeGreen,R.color.justyellow,R.color.colorPrimaryDark,R.color.success_green,
                 R.color.dark_grey};
 
+
+
     public static String getNameFromId(String id) {
-
-
                                              //eid + "_" + name + "_" + ...
         int index = id.indexOf("_");
         String subId = id.substring(index + 1);
@@ -44,6 +49,20 @@ public class Utils {
             actionBar.setTitle(title.trim());
 
     }
+
+
+    public static String getMonth() {
+
+        return months[Calendar.getInstance().get(Calendar.MONTH)];
+
+    }
+
+    public static String getYear() {
+
+        return new SimpleDateFormat("yyyy", Locale.ENGLISH).format(new Date());
+
+    }
+
 
 
 }

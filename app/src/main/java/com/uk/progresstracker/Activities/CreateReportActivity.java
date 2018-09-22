@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -94,7 +95,7 @@ public class CreateReportActivity extends AppCompatActivity {
 
     private void initialize() {
 
-
+        Utils.addBackButton(CreateReportActivity.this,getSupportActionBar(),member.getName());
         tvMonth = findViewById(R.id.month);
         tvYear = findViewById(R.id.year);
 
@@ -429,5 +430,14 @@ public class CreateReportActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+        }
+
+        return false;
+    }
 }

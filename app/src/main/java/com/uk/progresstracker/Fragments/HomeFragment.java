@@ -44,6 +44,10 @@ public class HomeFragment extends Fragment {
     private TextView tvWtLossName;
     private TextView tvAvgWtLoss;
     private TextView tvAvgWtLossName;
+    private TextView tvPenalty;
+    private TextView tvPenaltyName;
+    private TextView tvActivity;
+    private TextView tvActivityName;
 
     private String currentMonth;
     private String currentYear;
@@ -95,6 +99,10 @@ public class HomeFragment extends Fragment {
         tvWtLossName = view.findViewById(R.id.tvWeighLossName);
         tvAvgWtLoss = view.findViewById(R.id.tvAvgWeightLosss);
         tvAvgWtLossName = view.findViewById(R.id.tvAvgWeightLosssName);
+        tvPenalty = view.findViewById(R.id.tvPenalty);
+        tvPenaltyName = view.findViewById(R.id.tvPenaltyName);
+        tvActivity = view.findViewById(R.id.tvActivity);
+        tvActivityName = view.findViewById(R.id.tvActivityName);
 
         view.findViewById(R.id.ll)
                 .setOnClickListener(new View.OnClickListener() {
@@ -160,6 +168,54 @@ public class HomeFragment extends Fragment {
         setHighestCollection();
         setHighestWtLoss();
         setHighestAvgWtLoss();
+        setHighestPenalty();
+        setHighestActivity();
+
+    }
+
+    private void setHighestActivity() {
+
+        Report report = realm.where(Report.class)
+                .sort("activity", Sort.DESCENDING)
+                .equalTo("year",currentYear)
+                .equalTo("month",currentMonth)
+                .findFirst();
+
+        if (report != null) {
+            tvActivity.setText(String.valueOf(report.getActivity()));
+
+            String name = Utils.getNameFromId(report.getId());
+            tvActivityName.setText(name);
+        }else {
+
+            tvActivity.setText("--");
+            tvActivityName.setText("--");
+
+        }
+
+    }
+
+    private void setHighestPenalty() {
+
+        Report report = realm.where(Report.class)
+                .sort("penalty",Sort.DESCENDING)
+                .equalTo("year",currentYear)
+                .equalTo("month",currentMonth)
+                .findFirst();
+
+        if (report != null) {
+            tvPenalty.setText(String.valueOf(report.getPenalty()));
+
+            String name = Utils.getNameFromId(report.getId());
+            tvPenaltyName.setText(name);
+        }else {
+
+            tvPenalty.setText("--");
+            tvPenaltyName.setText("--");
+
+        }
+
+
 
     }
 

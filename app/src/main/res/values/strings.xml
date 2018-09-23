@@ -21,6 +21,8 @@
     <string name="no_value">--</string>
     <string name="enter_penalty">Enter Penalty</string>
     <string name="enter_activity">Enter Activity</string>
+    <string name="penalty">Penalty</string>
+    <string name="activity">Activity</string>
 
     <string-array name="months">
         <item>Select month</item>

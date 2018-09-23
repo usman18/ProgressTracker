@@ -23,7 +23,25 @@ public class Report extends RealmObject {
     private double avgWeightLoss;
     private double successPercentage;
     private int rank;
+    private int penalty;
+    private int activity;
     private double collection;  //Money
+
+    public int getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(int penalty) {
+        this.penalty = penalty;
+    }
+
+    public int getActivity() {
+        return activity;
+    }
+
+    public void setActivity(int activity) {
+        this.activity = activity;
+    }
 
     public String getYear() {
         return year;

@@ -49,6 +49,8 @@ public class StatisticsFragment extends Fragment{
     private BarChart rankChart;
     private BarChart successChart;
     private BarChart wtLossChart;
+    private BarChart penaltyChart;
+    private BarChart activityChart;
     private BarChart avgWtLossChart;
     private BarChart collectionChart;
 
@@ -89,6 +91,9 @@ public class StatisticsFragment extends Fragment{
         rankChart = view.findViewById(R.id.chartRank);
         successChart = view.findViewById(R.id.chartSuccess);
         wtLossChart = view.findViewById(R.id.chartWtLoss);
+        successChart = view.findViewById(R.id.chartSuccess);
+        penaltyChart = view.findViewById(R.id.chartPenalty);
+        activityChart = view.findViewById(R.id.chartActivity);
         avgWtLossChart = view.findViewById(R.id.chartAvgWtLoss);
         collectionChart = view.findViewById(R.id.chartCollection);
 
@@ -124,8 +129,135 @@ public class StatisticsFragment extends Fragment{
         setSuccessChart();
         setWtLossChart();
         setAvgWtLossChart();
+        setPenaltyChart();
+        setActivityChart();
         setCollectionChart();
         setRankChart();
+
+    }
+
+    private void setActivityChart() {
+
+
+        names.clear();
+        activityChart.clear();
+
+        if (reports.size() == 0) {
+            return;
+        }
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) r.getActivity()));
+            Log.d("Check","Id " + r.getId() + " Success " + r.getActivity());
+            names.add(Utils.getNameFromId(r.getId()));
+
+        }
+
+        Log.d("Check","Number of entries is " + entries.size());
+
+        Log.d("Check","Number of NAMES is " + names.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
+
+        XAxis xAxis = activityChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = activityChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = activityChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Activity");
+        dataSet.setColors(Utils.colorsArray,getContext());
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+
+        activityChart.setData(data);
+
+        activityChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
+        data.setBarWidth(0.6f);
+        activityChart.setVisibleXRangeMaximum(5);
+
+        activityChart.getDescription().setEnabled(false);
+        activityChart.invalidate();
+
+
+    }
+
+    private void setPenaltyChart() {
+
+
+        names.clear();
+        penaltyChart.clear();
+
+        if (reports.size() == 0) {
+            return;
+        }
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++, (float) r.getPenalty()));
+            Log.d("Check", "Id " + r.getId() + " Success " + r.getPenalty());
+            names.add(Utils.getNameFromId(r.getId()));
+
+        }
+
+        Log.d("Check", "Number of entries is " + entries.size());
+
+        Log.d("Check", "Number of NAMES is " + names.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
+
+        XAxis xAxis = penaltyChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = penaltyChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = penaltyChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries, "Penalty");
+        dataSet.setColors(Utils.colorsArray, getContext());
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+
+        penaltyChart.setData(data);
+
+        penaltyChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
+        data.setBarWidth(0.6f);
+        penaltyChart.setVisibleXRangeMaximum(5);
+
+        penaltyChart.getDescription().setEnabled(false);
+        penaltyChart.invalidate();
 
     }
 

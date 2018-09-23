@@ -201,7 +201,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/etPenalty"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_penalty"
@@ -225,7 +225,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_activity"
                     android:inputType="number"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:textSize="16sp"
                     />
 

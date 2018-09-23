@@ -45,7 +45,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     private BarChart wtLossChart;
     private BarChart avgWtLossChart;
     private BarChart collectionChart;
-    
+    private BarChart penaltyChart;
+    private BarChart activityChart;
+
     private String eid;
     private String name;
 
@@ -91,6 +93,8 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         wtLossChart = findViewById(R.id.chartWtLoss);
         avgWtLossChart = findViewById(R.id.chartAvgWtLoss);
         collectionChart = findViewById(R.id.chartCollection);
+        penaltyChart = findViewById(R.id.chartPenalty);
+        activityChart = findViewById(R.id.chartActivity);
 
         realm = Realm.getDefaultInstance();
 
@@ -125,6 +129,121 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         setAvgWtLossChart();
         setCollectionChart();
         setRankChart();
+        setPenaltyChart();
+        setActivityChart();
+
+    }
+
+    private void setActivityChart() {
+        months.clear();
+
+        if (reports.size() == 0)
+            return;
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) r.getActivity()));
+            Log.d("Check","Id " + r.getId() + " Activity " + r.getActivity());
+            months.add(r.getMonth() + " " + r.getYear());
+
+        }
+
+
+        Log.d("Check","Number of NAMES is " + months.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+
+        XAxis xAxis = activityChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = activityChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = activityChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Activity");
+        dataSet.setColors(Utils.colorsArray,IndividualStatisticsActivity.this);
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+        activityChart.setData(data);
+
+        activityChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
+        data.setBarWidth(0.6f);
+        activityChart.setVisibleXRangeMaximum(5);
+
+        activityChart.getDescription().setEnabled(false);
+        activityChart.invalidate();
+
+
+    }
+
+    private void setPenaltyChart() {
+        months.clear();
+
+        if (reports.size() == 0)
+            return;
+
+        ArrayList<BarEntry>
+                entries = new ArrayList<>();
+
+        int counter = 0;
+
+        for (Report r : reports) {
+
+            entries.add(new BarEntry(counter++,(float) r.getPenalty()));
+            Log.d("Check","Id " + r.getId() + " Penalty " + r.getPenalty());
+            months.add(r.getMonth() + " " + r.getYear());
+
+        }
+
+
+        Log.d("Check","Number of NAMES is " + months.size());
+
+        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+
+        XAxis xAxis = penaltyChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularity(1f);
+
+        YAxis lyaxis = penaltyChart.getAxisLeft();
+        lyaxis.setAxisMinimum(0f);
+
+        YAxis ryaxis = penaltyChart.getAxisRight();
+        ryaxis.setAxisMinimum(0f);
+
+
+        BarDataSet dataSet = new BarDataSet(entries,"Penalty");
+        dataSet.setColors(Utils.colorsArray,IndividualStatisticsActivity.this);
+
+        BarData data = new BarData(dataSet);
+
+        data.setValueTextSize(12);
+
+        penaltyChart.setData(data);
+
+        penaltyChart.animateY(1500, Easing.EasingOption.EaseOutBounce);
+
+        data.setBarWidth(0.6f);
+        penaltyChart.setVisibleXRangeMaximum(5);
+
+        penaltyChart.getDescription().setEnabled(false);
+        penaltyChart.invalidate();
 
     }
 

@@ -41,6 +41,8 @@ public class CreateReportActivity extends AppCompatActivity {
     private String successPercent = "";
     private String collection = "";
     private String rank = "";
+    private String penalty = "";
+    private String activity = "";
     private String id;
 
     private TeamMember member;
@@ -55,6 +57,8 @@ public class CreateReportActivity extends AppCompatActivity {
     private TextInputEditText etRank;
     private TextInputEditText etSuccessPercent;
     private TextInputEditText etCollection;
+    private TextInputEditText etPenalty;
+    private TextInputEditText etActivity;
 
     private Button btnSubmit;
     private Button btnDiscard;
@@ -104,6 +108,9 @@ public class CreateReportActivity extends AppCompatActivity {
         etSuccessPercent = findViewById(R.id.etSuccessPercentage);
         etRank = findViewById(R.id.etRank);
         etCollection = findViewById(R.id.etCollection);
+        etActivity = findViewById(R.id.etActivity);
+        etPenalty = findViewById(R.id.etPenalty);
+        etActivity = findViewById(R.id.etActivity);
 
         final TextView tvName = findViewById(R.id.tvName);
         tvName.setText(member.getName());
@@ -156,6 +163,16 @@ public class CreateReportActivity extends AppCompatActivity {
                     isNull = true;
                 }
 
+                if (TextUtils.isEmpty(etPenalty.getText().toString().trim())) {
+                    etRank.setError("Please enter penalty");
+                    isNull = true;
+                }
+
+                if (TextUtils.isEmpty(etActivity.getText().toString().trim())) {
+                    etRank.setError("Please enter activity");
+                    isNull = true;
+                }
+
                 if (!isNull) {
 
 
@@ -164,8 +181,10 @@ public class CreateReportActivity extends AppCompatActivity {
                     String rank = etRank.getText().toString().trim();
                     String collection = etCollection.getText().toString().trim();
                     String successPercent = etSuccessPercent.getText().toString().trim();
+                    String penalty = etPenalty.getText().toString().trim();
+                    String activity = etActivity.getText().toString().trim();
 
-                    saveToDb(member,weightLoss,avgWeightLoss,rank,collection,successPercent);
+                    saveToDb(member,weightLoss,avgWeightLoss,rank,collection,successPercent,penalty,activity);
 
                     Snackbar.make((CreateReportActivity.this)
                             .findViewById(R.id.root_layout),"Saved Successfully !",Snackbar.LENGTH_SHORT)
@@ -262,7 +281,7 @@ public class CreateReportActivity extends AppCompatActivity {
     }
 
 
-    private void saveToDb(final TeamMember member, String weightLoss, String avgWeightLoss, String rank, String collection, String successPercent) {
+    private void saveToDb(final TeamMember member, String weightLoss, String avgWeightLoss, String rank, String collection, String successPercent, String penalty, String activity) {
 
         final String name = member.getName();
         final String eid = member.getEid();
@@ -276,6 +295,8 @@ public class CreateReportActivity extends AppCompatActivity {
         report.setCollection(Double.parseDouble(collection));
         report.setRank(Integer.parseInt(rank));
         report.setSuccessPercentage(Double.parseDouble(successPercent));
+        report.setActivity(Integer.parseInt(activity));
+        report.setPenalty(Integer.parseInt(penalty));
         report.setMonth(selectedMonth);
         report.setYear(selectedYear);
 
@@ -310,6 +331,8 @@ public class CreateReportActivity extends AppCompatActivity {
                         r.setWeightLoss(report.getWeightLoss());
                         r.setAvgWeightLoss(report.getAvgWeightLoss());
                         r.setCollection(report.getCollection());
+                        r.setPenalty(report.getPenalty());
+                        r.setActivity(report.getActivity());
 
                         break;
 
@@ -403,6 +426,8 @@ public class CreateReportActivity extends AppCompatActivity {
             rank = String.valueOf(report.getRank());
             collection = String.valueOf(report.getCollection());
             successPercent = String.valueOf(report.getSuccessPercentage());
+            penalty = String.valueOf(report.getPenalty());
+            activity = String.valueOf(report.getActivity());
 
         }else {
 
@@ -412,6 +437,8 @@ public class CreateReportActivity extends AppCompatActivity {
             rank = "";
             collection = "";
             successPercent = "";
+            penalty = "";
+            activity = "";
 
         }
 
@@ -427,6 +454,8 @@ public class CreateReportActivity extends AppCompatActivity {
         etRank.setText(rank);
         etCollection.setText(collection);
         etSuccessPercent.setText(successPercent);
+        etActivity.setText(activity);
+        etPenalty.setText(penalty);
 
     }
 

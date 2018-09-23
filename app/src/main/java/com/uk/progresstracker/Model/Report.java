@@ -19,6 +19,7 @@ public class Report extends RealmObject {
 
     private String month;
     private String year;
+
     private double weightLoss;
     private double avgWeightLoss;
     private double successPercentage;

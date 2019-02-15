@@ -9,16 +9,30 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.realm.Realm;
+
 /**
  * Created by usman on 17-09-2018.
  */
 
 public class Utils {
 
+    public static final long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+    
     public static String[] months
             = {"Jan","Feb","March","April","May","June","July","Aug","Sept","Oct","Nov","Dec"};
 
-
+    
+    private static final String DATE_FORMAT = "dd/MM/yy";
+    
+    
+    
+    public static final String formatTo12Hr(long timeinmillis) {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        return format.format(timeinmillis);
+    }
+    
+    
     public static int getMonthIndex(String month) {
 
         for (int i = 0; i < months.length; i++) {
@@ -37,9 +51,11 @@ public class Utils {
 
 
 
-    public static String getNameFromId(String id) {
+    public static String getNameFromReportId(String id) {
                                              //eid + "_" + name + "_" + ...
-
+    
+        Realm realm = Realm.getDefaultInstance();
+        
         Log.d("Check","Given id is " + id);
 
         int index = id.indexOf("_");

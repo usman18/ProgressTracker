@@ -54,6 +54,8 @@ public class StatisticsFragment extends Fragment{
     private BarChart avgWtLossChart;
     private BarChart collectionChart;
 
+    private Calendar selectedDate;
+    
     private String monthName;
     private String year;
 
@@ -105,22 +107,28 @@ public class StatisticsFragment extends Fragment{
                     }
                 });
 
+        
+        selectedDate = Calendar.getInstance();
+        //Setting to absolute start of the day
+        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+        selectedDate.set(Calendar.MINUTE, 0);
+        selectedDate.set(Calendar.SECOND, 0);
+        selectedDate.set(Calendar.MILLISECOND, 0);
+    
+    
         //Initially month and year will be current month and year
-        int month = Calendar.getInstance().get(Calendar.MONTH);
+        int month = selectedDate.get(Calendar.MONTH);
         monthName = Utils.months[month];
-        year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        year = String.valueOf(selectedDate.get(Calendar.YEAR));
 
         tvMonth.setText(monthName);
         tvYear.setText(year);
 
         reports = realm.where(Report.class)
-                .equalTo("year",year)
-                .equalTo("month",monthName)
+                .greaterThanOrEqualTo("timestamp", selectedDate.getTimeInMillis())
+                .lessThan("timestamp", selectedDate.getTimeInMillis() + Utils.DAY_IN_MILLIS)
                 .sort("id",Sort.ASCENDING)
                 .findAll();
-
-        Log.d("Check","Number of reports is " + reports.size());
-
 
     }
 
@@ -155,7 +163,7 @@ public class StatisticsFragment extends Fragment{
 
             entries.add(new BarEntry(counter++,(float) r.getActivity()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getActivity());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 
@@ -218,7 +226,7 @@ public class StatisticsFragment extends Fragment{
 
             entries.add(new BarEntry(counter++, (float) r.getPenalty()));
             Log.d("Check", "Id " + r.getId() + " Success " + r.getPenalty());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 
@@ -292,13 +300,24 @@ public class StatisticsFragment extends Fragment{
 
                 monthName = Utils.months[monthIndex];
                 year = String.valueOf(datePicker.getYear());
-
+                
+                selectedDate.set(Calendar.YEAR, datePicker.getYear());
+                selectedDate.set(Calendar.MONTH, datePicker.getMonth());
+                selectedDate.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+    
+                //Absolute start of day
+                selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+                selectedDate.set(Calendar.MINUTE, 0);
+                selectedDate.set(Calendar.SECOND, 0);
+                selectedDate.set(Calendar.MILLISECOND, 0);
+                
+                
                 tvMonth.setText(monthName);
                 tvYear.setText(year);
 
                 reports = realm.where(Report.class)
-                        .equalTo("year",year)
-                        .equalTo("month",monthName)
+                        .greaterThanOrEqualTo("timestamp", selectedDate.getTimeInMillis())
+                        .lessThan("timestamp", selectedDate.getTimeInMillis() + Utils.DAY_IN_MILLIS)
                         .sort("id",Sort.ASCENDING)
                         .findAll();
 
@@ -343,7 +362,7 @@ public class StatisticsFragment extends Fragment{
 
             entries.add(new BarEntry(counter++,(float) ((maxRank - r.getRank()) + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 
@@ -391,8 +410,8 @@ public class StatisticsFragment extends Fragment{
     private int getMaxRank() {
 
         Report report = realm.where(Report.class)
-                .equalTo("year",year)
-                .equalTo("month", monthName)
+                .greaterThanOrEqualTo("timestamp", selectedDate.getTimeInMillis())
+                .lessThan("timestamp", selectedDate.getTimeInMillis() + Utils.DAY_IN_MILLIS)
                 .sort("rank", Sort.DESCENDING)
                 .findFirst();
 
@@ -419,14 +438,11 @@ public class StatisticsFragment extends Fragment{
         for (Report r : reports) {
 
             entries.add(new BarEntry(counter++,(float) r.getSuccessPercentage()));
-            Log.d("Check","Id " + r.getId() + " Success " + r.getSuccessPercentage());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 
-
-        Log.d("Check","Number of NAMES is " + names.size());
-
+        
         XAxisValueFormatter formatter = new XAxisValueFormatter(names.toArray(new String[names.size()]));
 
         XAxis xAxis = successChart.getXAxis();
@@ -482,7 +498,7 @@ public class StatisticsFragment extends Fragment{
 
             entries.add(new BarEntry(counter++,(float) r.getWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getWeightLoss());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 
@@ -543,7 +559,7 @@ public class StatisticsFragment extends Fragment{
 
             entries.add(new BarEntry(counter++,(float) r.getAvgWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getAvgWeightLoss());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 
@@ -603,7 +619,7 @@ public class StatisticsFragment extends Fragment{
 
             entries.add(new BarEntry(counter++,(float) r.getCollection()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getCollection());
-            names.add(Utils.getNameFromId(r.getId()));
+            names.add(Utils.getNameFromReportId(r.getId()));
 
         }
 

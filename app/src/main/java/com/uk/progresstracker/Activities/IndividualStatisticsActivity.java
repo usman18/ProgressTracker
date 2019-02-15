@@ -35,10 +35,9 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private static final String TAG = "Check";
     private Realm realm;
-    private TeamMember member;
     private RealmList<Report> reports;
     
-    private ArrayList<String> months;
+    private ArrayList<String> dates;
     
     private BarChart rankChart;
     private BarChart successChart;
@@ -98,24 +97,18 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
-        months = new ArrayList<>();
-
-        member = realm.where(TeamMember.class)
-                .equalTo("eid",eid)
-                .equalTo("name",name)
-                .findFirst();
+        dates = new ArrayList<>();
+    
+        TeamMember member = realm.where(TeamMember.class)
+            .equalTo("eid", eid)
+            .equalTo("name", name)
+            .findFirst();
         
         if (member != null)
             reports = member.getReports();
 
         Log.d(TAG, "initialize: Size is " + reports.size());
 
-        for (int i = 0; i < reports.size(); i++) {
-
-            Log.d("Check", "initialize: id is " + reports.get(i).getId());
-            Log.d(TAG, "initialize: rank is " + reports.get(i).getRank() );
-
-        }
         
      
     }
@@ -123,7 +116,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     private void setupUI() {
 
 
-        sortReportsByMonth();
+        sortReportsByTimeStamp();
         setSuccessChart();
         setWtLossChart();
         setAvgWtLossChart();
@@ -135,7 +128,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     }
 
     private void setActivityChart() {
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
@@ -148,15 +141,14 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         for (Report r : reports) {
 
             entries.add(new BarEntry(counter++,(float) r.getActivity()));
-            Log.d("Check","Id " + r.getId() + " Activity " + r.getActivity());
-            months.add(r.getMonth() + " " + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            
         }
 
 
-        Log.d("Check","Number of NAMES is " + months.size());
+        Log.d("Check","Number of NAMES is " + dates.size());
 
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = activityChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -192,7 +184,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
     }
 
     private void setPenaltyChart() {
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
@@ -206,14 +198,15 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getPenalty()));
             Log.d("Check","Id " + r.getId() + " Penalty " + r.getPenalty());
-            months.add(r.getMonth() + " " + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+    
+    
         }
 
 
-        Log.d("Check","Number of NAMES is " + months.size());
+        Log.d("Check","Number of NAMES is " + dates.size());
 
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = penaltyChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -247,25 +240,14 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     }
 
-    private void sortReportsByMonth() {
+    private void sortReportsByTimeStamp() {
 
         realm.beginTransaction();
 
         Collections.sort(reports, new Comparator<Report>() {
             @Override
             public int compare(Report o1, Report o2) {
-
-                String month1 = o1.getMonth();
-                String month2 = o2.getMonth();
-
-                int year1 = Integer.parseInt(o1.getYear());
-                int year2 = Integer.parseInt(o2.getYear());
-
-                if (year1 != year2)
-                    return Integer.compare(year1,year2);
-                return Integer.compare(Utils.getMonthIndex(month1),Utils.getMonthIndex(month2));
-
-
+                return ~Long.compare(o1.getTimestamp(), o2.getTimestamp());
             }
         });
 
@@ -276,7 +258,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setRankChart() {
 
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
@@ -295,14 +277,14 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++, (float) ((maxRank - r.getRank()) + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
-            months.add(r.getMonth() + " "  + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            
         }
 
 
-        Log.d("Check","Number of NAMES is " + months.size());
+        Log.d("Check","Number of NAMES is " + dates.size());
 
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = rankChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -343,35 +325,23 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setSuccessChart() {
 
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
-
-
+        
         ArrayList<BarEntry>
                 entries = new ArrayList<>();
-
-
+        
         int counter = 0;
 
         for (Report r : reports) {
-
             entries.add(new BarEntry(counter++,(float) r.getSuccessPercentage()));
-            Log.d("Check","Id " + r.getId() + " Success " + r.getSuccessPercentage());
-            months.add(r.getMonth() + " " + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
         }
 
-
-
-
-
-
-
-        Log.d("Check","Number of NAMES is " + months.size());
-
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = successChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -414,7 +384,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setWtLossChart() {
 
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
@@ -427,15 +397,12 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         for (Report r : reports) {
 
             entries.add(new BarEntry(counter++,(float) r.getWeightLoss()));
-            Log.d("Check","Id " + r.getId() + " Success " + r.getWeightLoss());
-            months.add(r.getMonth() + " " + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            
         }
-
-
-        Log.d("Check","Number of NAMES is " + months.size());
-
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        
+        
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = wtLossChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -473,7 +440,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setAvgWtLossChart() {
 
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
@@ -487,14 +454,14 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getAvgWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getAvgWeightLoss());
-            months.add(r.getMonth() + " " + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+    
         }
 
 
-        Log.d("Check","Number of NAMES is " + months.size());
+        Log.d("Check","Number of NAMES is " + dates.size());
 
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = avgWtLossChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -530,7 +497,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
     private void setCollectionChart() {
 
-        months.clear();
+        dates.clear();
 
         if (reports.size() == 0)
             return;
@@ -544,14 +511,14 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getCollection()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getCollection());
-            months.add(r.getMonth() + " " + r.getYear());
-
+            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+    
         }
 
 
-        Log.d("Check","Number of NAMES is " + months.size());
+        Log.d("Check","Number of NAMES is " + dates.size());
 
-        XAxisValueFormatter formatter = new XAxisValueFormatter(months.toArray(new String[months.size()]));
+        XAxisValueFormatter formatter = new XAxisValueFormatter(dates.toArray(new String[dates.size()]));
 
         XAxis xAxis = collectionChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

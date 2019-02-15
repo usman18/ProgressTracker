@@ -28,14 +28,15 @@ import io.realm.Realm;
 import io.realm.RealmList;
 
 public class CreateReportActivity extends AppCompatActivity {
-
-    private Realm realm;
-
+    
+    private static final String TAG = "CreateReportActivity";
+    
     private String eid;
 
     private String selectedMonth = "";
     private String selectedYear = "";
-
+    private Calendar selectedDate;
+    
     private String wtLoss = "";
     private String avgWtLoss = "";
     private String successPercent = "";
@@ -68,8 +69,8 @@ public class CreateReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_report);
-
-        realm = Realm.getDefaultInstance();
+    
+        Realm realm = Realm.getDefaultInstance();
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
@@ -121,6 +122,13 @@ public class CreateReportActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         btnDiscard = findViewById(R.id.btnDiscard);
 
+        
+        selectedDate = Calendar.getInstance();  //Initially current date
+        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+        selectedDate.set(Calendar.MINUTE, 0);
+        selectedDate.set(Calendar.SECOND, 0);
+        selectedDate.set(Calendar.MILLISECOND, 0);
+        
         selectedMonth = Utils.getMonth();   //Initially current month
         selectedYear = Utils.getYear();     // Initially current year
 
@@ -252,11 +260,12 @@ public class CreateReportActivity extends AppCompatActivity {
         String name = member.getName();
 
 
-        String report_id = id + "_" + name + "_" + month + "_" + year;
+        String report_id = id + "_" + name + "_" + selectedDate.getTimeInMillis();
 
+        Log.d("Check","Id is " + report_id);
+        
         Realm realm = Realm.getDefaultInstance();
-
-
+        
         return realm.where(Report.class)
                 .equalTo("id",report_id)
                 .findFirst();
@@ -283,9 +292,9 @@ public class CreateReportActivity extends AppCompatActivity {
 
     private void saveToDb(final TeamMember member, String weightLoss, String avgWeightLoss, String rank, String collection, String successPercent, String penalty, String activity) {
 
-        final String name = member.getName();
         final String eid = member.getEid();
-
+        String memberName = member.getName();
+        
         Realm realm = Realm.getDefaultInstance();
 
         final Report report = new Report();
@@ -297,10 +306,10 @@ public class CreateReportActivity extends AppCompatActivity {
         report.setSuccessPercentage(Double.parseDouble(successPercent));
         report.setActivity(Integer.parseInt(activity));
         report.setPenalty(Integer.parseInt(penalty));
-        report.setMonth(selectedMonth);
-        report.setYear(selectedYear);
-
-        report.setId(eid + "_" + name + "_" + selectedMonth + "_" + selectedYear);
+        report.setTimestamp(selectedDate.getTimeInMillis());
+        
+        report.setId(eid + "_" + memberName + "_" + selectedDate.getTimeInMillis());
+        Log.d("Check", "New id is " + report.getId());
         //POJO completely set up here
 
 
@@ -316,6 +325,7 @@ public class CreateReportActivity extends AppCompatActivity {
                 RealmList<Report> reports = teamMember.getReports();
 
                 Log.d("Check","Given id " + report.getId());
+                
 
                 Log.d("Check","Size of reports is " + reports.size());
 
@@ -353,7 +363,7 @@ public class CreateReportActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Log.d("Check","Successful !");
-                Log.d("Check","Month " + report.getMonth());
+                Log.d("Check","Month " + report.getTimestamp());
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -394,8 +404,20 @@ public class CreateReportActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int monthIndex = datePicker.getMonth();
                 int year = datePicker.getYear();
-
-
+                
+                selectedDate.set(Calendar.MONTH, monthIndex);
+                selectedDate.set(Calendar.YEAR, year);
+                selectedDate.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                
+                
+                //Setting to absolute start
+                selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+                selectedDate.set(Calendar.MINUTE, 0);
+                selectedDate.set(Calendar.SECOND, 0);
+                selectedDate.set(Calendar.MILLISECOND, 0);
+    
+                Log.d(TAG, "onClick: Time " + Utils.formatTo12Hr(selectedDate.getTimeInMillis()));
+                
                 selectedMonth = Utils.months[monthIndex];
                 selectedYear = String.valueOf(year);
 

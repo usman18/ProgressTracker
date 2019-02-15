@@ -13,7 +13,6 @@ public class TeamMember extends RealmObject {
     @PrimaryKey
     private String eid;
     private String name;
-
     private RealmList<Report> reports;
 
     public TeamMember() {

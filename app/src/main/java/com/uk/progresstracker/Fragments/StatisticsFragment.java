@@ -42,9 +42,8 @@ import io.realm.Sort;
 public class StatisticsFragment extends Fragment{
 
     private Realm realm;
-
-    private TextView tvMonth;
-    private TextView tvYear;
+    
+    private TextView tvDate;
 
     private BarChart rankChart;
     private BarChart successChart;
@@ -56,8 +55,6 @@ public class StatisticsFragment extends Fragment{
 
     private Calendar selectedDate;
     
-    private String monthName;
-    private String year;
 
     RealmResults<Report> reports;
     private ArrayList<String> names;
@@ -86,10 +83,9 @@ public class StatisticsFragment extends Fragment{
         realm = Realm.getDefaultInstance();
 
         names = new ArrayList<>();
-
-        tvMonth = view.findViewById(R.id.month);
-        tvYear = view.findViewById(R.id.year);
-
+        
+        tvDate = view.findViewById(R.id.tvDate);
+        
         rankChart = view.findViewById(R.id.chartRank);
         successChart = view.findViewById(R.id.chartSuccess);
         wtLossChart = view.findViewById(R.id.chartWtLoss);
@@ -116,14 +112,9 @@ public class StatisticsFragment extends Fragment{
         selectedDate.set(Calendar.MILLISECOND, 0);
     
     
-        //Initially month and year will be current month and year
-        int month = selectedDate.get(Calendar.MONTH);
-        monthName = Utils.months[month];
-        year = String.valueOf(selectedDate.get(Calendar.YEAR));
-
-        tvMonth.setText(monthName);
-        tvYear.setText(year);
-
+        //Setting today's date by default
+        tvDate.setText(Utils.formatToDate(System.currentTimeMillis()));
+        
         reports = realm.where(Report.class)
                 .greaterThanOrEqualTo("timestamp", selectedDate.getTimeInMillis())
                 .lessThan("timestamp", selectedDate.getTimeInMillis() + Utils.DAY_IN_MILLIS)
@@ -298,8 +289,6 @@ public class StatisticsFragment extends Fragment{
             public void onClick(View v) {
                 int monthIndex = datePicker.getMonth();
 
-                monthName = Utils.months[monthIndex];
-                year = String.valueOf(datePicker.getYear());
                 
                 selectedDate.set(Calendar.YEAR, datePicker.getYear());
                 selectedDate.set(Calendar.MONTH, datePicker.getMonth());
@@ -312,16 +301,15 @@ public class StatisticsFragment extends Fragment{
                 selectedDate.set(Calendar.MILLISECOND, 0);
                 
                 
-                tvMonth.setText(monthName);
-                tvYear.setText(year);
-
+                //Setting the selected date to the text view
+                tvDate.setText(Utils.formatToDate(selectedDate.getTimeInMillis()));
+                
                 reports = realm.where(Report.class)
                         .greaterThanOrEqualTo("timestamp", selectedDate.getTimeInMillis())
                         .lessThan("timestamp", selectedDate.getTimeInMillis() + Utils.DAY_IN_MILLIS)
                         .sort("id",Sort.ASCENDING)
                         .findAll();
 
-                Log.d("Check","Month is " + monthName + " year is " + year);
                 Log.d("Check","Size is " + reports.size());
 
                 for (Report report : reports) {

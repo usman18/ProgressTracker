@@ -24,24 +24,20 @@ public class Utils {
 
     
     private static final String DATE_FORMAT = "dd/MM/yy";
+    private static final String TWELVE_HR_TIME = "hh:mm";
     
     
-    
-    public static final String formatTo12Hr(long timeinmillis) {
+    public static String formatToDate(long timeInMillis) {
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        return format.format(timeinmillis);
+        return format.format(timeInMillis);
     }
     
-    
-    public static int getMonthIndex(String month) {
 
-        for (int i = 0; i < months.length; i++) {
-
-            if (month.equalsIgnoreCase(months[i]))
-                return i;
-        }
-        return -1;
+    public static String formatTo12Hr(long timeInMillis) {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        return format.format(timeInMillis);
     }
+    
 
 
     public static int[] colorsArray

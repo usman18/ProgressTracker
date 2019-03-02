@@ -33,32 +33,15 @@
                     android:orientation="horizontal"
                     >
 
+
                     <TextView
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-condensed"
-                        android:layout_gravity="center"
-                        android:textAlignment="center"
-                        android:id="@+id/month"
+                        android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorAccent"
-                        android:text="Month"
-                        android:textStyle="bold"
-                        />
-
-
-                    <TextView
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:fontFamily="sans-serif-condensed"
                         android:layout_gravity="center"
-                        android:textAlignment="center"
-                        android:layout_marginStart="12dp"
-                        android:id="@+id/year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
-                        android:text="Year"
+                        android:text="@string/date"
+                        android:textSize="16sp"
                         />
 
                     <View
@@ -70,6 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_filter"
+                        android:contentDescription="@string/apply_filter"
                         />
 
 

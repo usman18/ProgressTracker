@@ -416,7 +416,7 @@ public class CreateReportActivity extends AppCompatActivity {
                 selectedDate.set(Calendar.SECOND, 0);
                 selectedDate.set(Calendar.MILLISECOND, 0);
     
-                Log.d(TAG, "onClick: Time " + Utils.formatTo12Hr(selectedDate.getTimeInMillis()));
+                Log.d(TAG, "onClick: Time " + Utils.formatToDate(selectedDate.getTimeInMillis()));
                 
                 selectedMonth = Utils.months[monthIndex];
                 selectedYear = String.valueOf(year);

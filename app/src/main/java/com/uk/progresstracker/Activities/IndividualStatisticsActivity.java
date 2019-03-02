@@ -141,7 +141,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         for (Report r : reports) {
 
             entries.add(new BarEntry(counter++,(float) r.getActivity()));
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
             
         }
 
@@ -198,7 +198,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getPenalty()));
             Log.d("Check","Id " + r.getId() + " Penalty " + r.getPenalty());
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
     
     
         }
@@ -277,7 +277,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++, (float) ((maxRank - r.getRank()) + 1)));   // subtracting from the maximum since it higher ranks (lower by number) must appear higher on graph
             Log.d("Check","Id " + r.getId() + " Rank " + r.getRank());
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
             
         }
 
@@ -337,7 +337,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
         for (Report r : reports) {
             entries.add(new BarEntry(counter++,(float) r.getSuccessPercentage()));
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
         }
 
         
@@ -397,7 +397,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
         for (Report r : reports) {
 
             entries.add(new BarEntry(counter++,(float) r.getWeightLoss()));
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
             
         }
         
@@ -454,7 +454,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getAvgWeightLoss()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getAvgWeightLoss());
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
     
         }
 
@@ -511,7 +511,7 @@ public class IndividualStatisticsActivity extends AppCompatActivity {
 
             entries.add(new BarEntry(counter++,(float) r.getCollection()));
             Log.d("Check","Id " + r.getId() + " Success " + r.getCollection());
-            dates.add(Utils.formatTo12Hr(r.getTimestamp()));
+            dates.add(Utils.formatToDate(r.getTimestamp()));
     
         }
 

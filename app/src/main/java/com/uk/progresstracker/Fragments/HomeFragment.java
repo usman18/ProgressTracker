@@ -29,8 +29,7 @@ public class HomeFragment extends Fragment {
 	
 	private Realm realm;
 	
-	private TextView tvMonth;
-	private TextView tvYear;
+	private TextView tvDate;
 	
 	private TextView tvRank;
 	private TextView tvRankName;
@@ -47,8 +46,6 @@ public class HomeFragment extends Fragment {
 	private TextView tvActivity;
 	private TextView tvActivityName;
 	
-	private String currentMonth;
-	private String currentYear;
 	private Calendar selectedDate;
 	
 	
@@ -84,16 +81,9 @@ public class HomeFragment extends Fragment {
 		selectedDate.set(Calendar.MILLISECOND, 0);
 		
 		int monthIndex = selectedDate.get(Calendar.MONTH);
-		currentMonth = Utils.months[monthIndex];
 		
-		currentYear = String.valueOf(selectedDate.get(Calendar.YEAR));
-		
-		tvMonth = view.findViewById(R.id.month);
-		tvYear = view.findViewById(R.id.year);
-		
-		tvMonth.setText(currentMonth);
-		tvYear.setText(currentYear);
-		
+		tvDate = view.findViewById(R.id.tvDate);
+		tvDate.setText(Utils.formatToDate(System.currentTimeMillis()));
 		
 		tvRank = view.findViewById(R.id.tvRank);
 		tvRankName = view.findViewById(R.id.tvRankName);
@@ -166,11 +156,7 @@ public class HomeFragment extends Fragment {
 				selectedDate.set(Calendar.MILLISECOND, 0);
 				
 				
-				currentMonth = Utils.months[monthIndex];
-				currentYear = String.valueOf(year);
-				
-				tvMonth.setText(currentMonth);
-				tvYear.setText(currentYear);
+				tvDate.setText(Utils.formatToDate(selectedDate.getTimeInMillis()));
 				
 				setUI();
 				

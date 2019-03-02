@@ -23,6 +23,8 @@
     <string name="enter_activity">Enter Activity</string>
     <string name="penalty">Penalty</string>
     <string name="activity">Activity</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="date">Date</string>
 
     <string-array name="months">
         <item>Select month</item>
